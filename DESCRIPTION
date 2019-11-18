@@ -1,0 +1,16 @@
+Package: SC
+Type: Package
+Title: Implement block coordinate algorithm to estimate large covariance and Cholesky Factor for local stationary processes.
+Version: 1.0
+Date: 2019-11-17 
+Author: Aramayis Dallakyan
+Maintainer:  <dallakyan1988@tamu.edu>
+Description: This package implements the large inverse covariance estimation for local
+stationary processes using method introduced in Dallakyan and Pourahmadi 2019. In
+particular, using the standard Cholesky factor as the new parameters, we propose Smoothed
+Cholesky (SC) algorithm to estimate the covariance (inverse) matrix. It is a block coordinate
+descent algorithm which subdiagonally smoothes the Cholesky factor using fused lasso type
+penalties.
+License: GPL-3
+Imports: Rcpp (>= 1.0.2),  flsa, l1tf
+LinkingTo: Rcpp, RcppArmadillo
