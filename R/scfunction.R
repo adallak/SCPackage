@@ -165,7 +165,7 @@ matGenerate<-function(p)
   return(output)
 }
 
-### This function converts x to L
+### This function converts x to Matrix L
 
 Lfromx<-function(x,p)
 {
