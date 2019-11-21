@@ -43,17 +43,17 @@ matimage(true, main = "True L")
 matimage(S, main = "Sample covariance matrix")
 ```
 
-## Estimating $L$ with a fixed tuning parameter
+## Estimating L with a fixed tuning parameter
 
 The `sc`function takes the following parameters:
-- $S$ - sample covariance matrix
-- $\lambda_1$ - controls the sparsity level
-- $\lambda_2$ - controls the smoothness
-- max_iter - Number of iteration for block coordinate algorithm
-- init.x   - Initial vectorized Cholesky vactor $L$. If `NULL`, the default is $vec(\sqrt{diag(S)})$.
-- type - type of the smoothing penalty
-- band - if specified, algorithm forces the rest of entries zero and iterates only over specifed subdiagonals.
-- ABSTOL - Tolerance for algorithm convergence.
+- `S` - sample covariance matrix
+- `lambda1` - controls the sparsity level
+- `lambda_2` - controls the smoothness
+- `max_iter` - Number of iteration for block coordinate algorithm
+- `init.x`   - Initial vectorized Cholesky vactor $L$. If `NULL`, the default is $vec(\sqrt{diag(S)})$.
+- `type` - type of the smoothing penalty
+- `band` - if specified, algorithm forces the rest of entries zero and iterates only over specifed subdiagonals.
+- `ABSTOL` - Tolerance for algorithm convergence.
 
 ```s
 # use identity matrix as initial estimate
