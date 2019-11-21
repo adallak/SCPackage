@@ -1,3 +1,3 @@
-#' @useDynLib packagename
+#' @useDynLib SC
 #' @importFrom Rcpp evalCpp
 NULL

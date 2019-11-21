@@ -6,6 +6,31 @@
 
 using namespace Rcpp;
 
+// dvec_C
+arma::vec dvec_C(const arma::mat& L);
+RcppExport SEXP _SC_dvec_C(SEXP LSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type L(LSEXP);
+    rcpp_result_gen = Rcpp::wrap(dvec_C(L));
+    return rcpp_result_gen;
+END_RCPP
+}
+// offsubsum
+arma::vec offsubsum(const List& A, const arma::vec& x, const int& i, const arma::mat& S);
+RcppExport SEXP _SC_offsubsum(SEXP ASEXP, SEXP xSEXP, SEXP iSEXP, SEXP SSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const List& >::type A(ASEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const int& >::type i(iSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type S(SSEXP);
+    rcpp_result_gen = Rcpp::wrap(offsubsum(A, x, i, S));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpparma_hello_world
 arma::mat rcpparma_hello_world();
 RcppExport SEXP _SC_rcpparma_hello_world() {
@@ -51,6 +76,8 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_SC_dvec_C", (DL_FUNC) &_SC_dvec_C, 1},
+    {"_SC_offsubsum", (DL_FUNC) &_SC_offsubsum, 4},
     {"_SC_rcpparma_hello_world", (DL_FUNC) &_SC_rcpparma_hello_world, 0},
     {"_SC_rcpparma_outerproduct", (DL_FUNC) &_SC_rcpparma_outerproduct, 1},
     {"_SC_rcpparma_innerproduct", (DL_FUNC) &_SC_rcpparma_innerproduct, 1},

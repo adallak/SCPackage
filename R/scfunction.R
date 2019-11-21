@@ -1,11 +1,19 @@
-# require(l1tf)
-# require(flsa)
-# require(Rcpp)
-# sourceCpp("SC_C_integrate.cpp")
-#source("CK_matrix_Generate.R")
-#require(genlasso)
-#require(Matrix)
 
+#' Title
+#'
+#' @param S        Sample Covariance Matrix
+#' @param lambda1  Threshold value for sparse SC
+#' @param lambda2  Threshold value to control smoothness
+#' @param max_iter Number of maximum iteration
+#' @param init.x   initial value for vectorized Cholesky factor L. The default is diagonal matrix, with diagonal values corresponding square root of diag(S). 
+#' @param type 
+#' @param band 
+#' @param ABSTOL 
+#'
+#' @return The smoothed Cholesky factor \code{L}
+#' @export 
+#'
+#' @examples
 sc<-function(S, lambda1 = 0, lambda2, max_iter=50, init.x=NULL, type= c("fused","lasso","l1trend","HP"), 
              band=NULL,  ABSTOL   = 1e-4 )
 {
