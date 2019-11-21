@@ -1,0 +1,38 @@
+---
+title: "sc_vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{sc_vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+<a id="top"></a>
+
+# SC Vignette
+### Aramayis Dallakyan
+
+[Introduction](#intro)
+[Installation](#install)
+[Quick Start](#qs)
+
+<a id="intro"></a>
+
+## Introduction
+
+<a id="install"></a>
+
+## Installation
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Quick Start
+
+```{r setup}
+library(SC)
+```
