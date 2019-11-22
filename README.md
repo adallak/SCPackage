@@ -17,6 +17,7 @@ devtools::install_github("adallak/SCPackage")
 ## Usage
 The package contains function `generateL` for generating true standard and modified Cholesky factor $L$. It takes as an input number of variables and number of bands and returns the Cholesky Factor. 
 ```s
+library(SC)
 set.seed(12)
 p <- 50
 band <- 5
