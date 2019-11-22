@@ -13,7 +13,18 @@
 #' @return The smoothed Cholesky factor \code{L}
 #' @export 
 #'
-#' @examples
+#' @examples 
+#' set.seed(12)
+#' p <- 50
+#' band <- 5
+#' L_true <- generateL(p = p, band = band)
+#' library(varband)
+#' n = 100
+#' random sample
+#' X <- sample_gen(L = true, n = n)
+#' sample covariance matrix
+#' L_fused = sc(S, lambda1 = 0, lambda2 = 0.2, type = "fused")
+S <- crossprod(scale(X, center = TRUE, scale = FALSE)) / n
 sc<-function(S, lambda1 = 0, lambda2, max_iter=50, init.x=NULL, type= c("fused","lasso","l1trend","HP"), 
              band=NULL,  ABSTOL   = 1e-4 )
 {

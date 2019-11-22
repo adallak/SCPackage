@@ -117,6 +117,7 @@ piecewiseAR<-function(p,a=-0.9,b=0.9,seed=25)
 #' @export
 #'
 #' @examples
+#' generateL(p = 10, band = 4, case = "c")
 generateL<-function(p,band=NULL,scaled=FALSE,case=c("b","c","d"),seed=25,...)
 {
   p=p
