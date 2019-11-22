@@ -6,9 +6,9 @@
 #' @param lambda2  Threshold value to control smoothness
 #' @param max_iter Number of maximum iteration
 #' @param init.x   initial value for vectorized Cholesky factor L. The default is diagonal matrix, with diagonal values corresponding square root of diag(S). 
-#' @param type 
-#' @param band 
-#' @param ABSTOL 
+#' @param type     type of the smoothing penalty
+#' @param band     if specified, algorithm forces the rest of entries zero and iterates only over specifed subdiagonals.
+#' @param ABSTOL   Tolerance for algorithm convergence.
 #'
 #' @return The smoothed Cholesky factor \code{L}
 #' @export 

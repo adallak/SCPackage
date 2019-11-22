@@ -17,17 +17,16 @@ devtools::install_github("adallak/SCPackage")
 ## Usage
 The package contains function `generateL` for generating true standard and modified Cholesky factor $L$. It takes as an input number of variables and number of bands and returns the Cholesky Factor. 
 ```s
-library(DAP)
-library(varband)
 set.seed(12)
 p <- 50
 band <- 5
 L_true <- generateL(p = p, band = band)
 ```
 
-Having true Cholesky factor, we can then generate a data matrix $X \in \mathbb{R}^{n \times p}$ with each row a random sample drawn independently from a Gaussian distribution of mean zero and covariance $\Sigma = (L^T L)^{-1}$. We use function `sample_gen` from the package `varband` to generate the data. After centering the dat, the sample covariance is esitmated by $S = \frac{X^tX}{n}$
+Having true Cholesky factor, we can then generate a data matrix $X \in \mathbb{R}^{n \times p}$ with each row a random sample drawn independently from a Gaussian distribution of mean zero and covariance $\Sigma = (L^T L)^{-1}$. We use function `sample_gen` from the package `varband` to generate the data. 
 
 ```s
+library(varband)
 n = 100
 # random sample
 X <- sample_gen(L = true, n = n)
@@ -35,13 +34,6 @@ X <- sample_gen(L = true, n = n)
 S <- crossprod(scale(X, center = TRUE, scale = FALSE)) / n
 ```
 
-We can plot the sparsity patterns of the true model and the sample covariance matrix by using `matimage` function from the package `varband`. 
-
-```s
-par(mfrow = c(1, 2), mar = c(0, 0, 2, 0))
-matimage(true, main = "True L")
-matimage(S, main = "Sample covariance matrix")
-```
 
 ## Estimating L with a fixed tuning parameter
 
