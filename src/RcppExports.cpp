@@ -31,6 +31,204 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// diag_update
+arma::vec diag_update(const List A, arma::vec x, arma::mat S, int i);
+RcppExport SEXP _SC_diag_update(SEXP ASEXP, SEXP xSEXP, SEXP SSEXP, SEXP iSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const List >::type A(ASEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type S(SSEXP);
+    Rcpp::traits::input_parameter< int >::type i(iSEXP);
+    rcpp_result_gen = Rcpp::wrap(diag_update(A, x, S, i));
+    return rcpp_result_gen;
+END_RCPP
+}
+// soft_threshold
+arma::vec soft_threshold(arma::colvec y, double lambda1);
+RcppExport SEXP _SC_soft_threshold(SEXP ySEXP, SEXP lambda1SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::colvec >::type y(ySEXP);
+    Rcpp::traits::input_parameter< double >::type lambda1(lambda1SEXP);
+    rcpp_result_gen = Rcpp::wrap(soft_threshold(y, lambda1));
+    return rcpp_result_gen;
+END_RCPP
+}
+// weighted_soft_threshold
+arma::vec weighted_soft_threshold(arma::vec& y, const arma::vec& weight, const double& lambda1);
+RcppExport SEXP _SC_weighted_soft_threshold(SEXP ySEXP, SEXP weightSEXP, SEXP lambda1SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec& >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type weight(weightSEXP);
+    Rcpp::traits::input_parameter< const double& >::type lambda1(lambda1SEXP);
+    rcpp_result_gen = Rcpp::wrap(weighted_soft_threshold(y, weight, lambda1));
+    return rcpp_result_gen;
+END_RCPP
+}
+// matGenerateC
+List matGenerateC(int p);
+RcppExport SEXP _SC_matGenerateC(SEXP pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type p(pSEXP);
+    rcpp_result_gen = Rcpp::wrap(matGenerateC(p));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fused_coef
+arma::colvec fused_coef(std::vector<double> y, const double lambda2);
+RcppExport SEXP _SC_fused_coef(SEXP ySEXP, SEXP lambda2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<double> >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const double >::type lambda2(lambda2SEXP);
+    rcpp_result_gen = Rcpp::wrap(fused_coef(y, lambda2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// trend_coef
+arma::colvec trend_coef(arma::vec y, double lambda2);
+RcppExport SEXP _SC_trend_coef(SEXP ySEXP, SEXP lambda2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type y(ySEXP);
+    Rcpp::traits::input_parameter< double >::type lambda2(lambda2SEXP);
+    rcpp_result_gen = Rcpp::wrap(trend_coef(y, lambda2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// getd1d
+arma::mat getd1d(int j);
+RcppExport SEXP _SC_getd1d(SEXP jSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type j(jSEXP);
+    rcpp_result_gen = Rcpp::wrap(getd1d(j));
+    return rcpp_result_gen;
+END_RCPP
+}
+// getdtf
+arma::mat getdtf(const int j, const int ord);
+RcppExport SEXP _SC_getdtf(SEXP jSEXP, SEXP ordSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const int >::type j(jSEXP);
+    Rcpp::traits::input_parameter< const int >::type ord(ordSEXP);
+    rcpp_result_gen = Rcpp::wrap(getdtf(j, ord));
+    return rcpp_result_gen;
+END_RCPP
+}
+// iter_fused
+Rcpp::List iter_fused(arma::vec& x, arma::mat S, const double lambda1, const double lambda2, int band, List A, const double max_iter, double ABSTOL);
+RcppExport SEXP _SC_iter_fused(SEXP xSEXP, SEXP SSEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP bandSEXP, SEXP ASEXP, SEXP max_iterSEXP, SEXP ABSTOLSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type S(SSEXP);
+    Rcpp::traits::input_parameter< const double >::type lambda1(lambda1SEXP);
+    Rcpp::traits::input_parameter< const double >::type lambda2(lambda2SEXP);
+    Rcpp::traits::input_parameter< int >::type band(bandSEXP);
+    Rcpp::traits::input_parameter< List >::type A(ASEXP);
+    Rcpp::traits::input_parameter< const double >::type max_iter(max_iterSEXP);
+    Rcpp::traits::input_parameter< double >::type ABSTOL(ABSTOLSEXP);
+    rcpp_result_gen = Rcpp::wrap(iter_fused(x, S, lambda1, lambda2, band, A, max_iter, ABSTOL));
+    return rcpp_result_gen;
+END_RCPP
+}
+// trend_update
+arma::vec trend_update(arma::vec x, arma::mat S, const double lambda1, const double lambda2, int band, List A);
+RcppExport SEXP _SC_trend_update(SEXP xSEXP, SEXP SSEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP bandSEXP, SEXP ASEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type S(SSEXP);
+    Rcpp::traits::input_parameter< const double >::type lambda1(lambda1SEXP);
+    Rcpp::traits::input_parameter< const double >::type lambda2(lambda2SEXP);
+    Rcpp::traits::input_parameter< int >::type band(bandSEXP);
+    Rcpp::traits::input_parameter< List >::type A(ASEXP);
+    rcpp_result_gen = Rcpp::wrap(trend_update(x, S, lambda1, lambda2, band, A));
+    return rcpp_result_gen;
+END_RCPP
+}
+// iter_trend
+Rcpp::List iter_trend(arma::vec& x, arma::mat S, const double lambda1, const double lambda2, int band, List A, const double max_iter, double ABSTOL);
+RcppExport SEXP _SC_iter_trend(SEXP xSEXP, SEXP SSEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP bandSEXP, SEXP ASEXP, SEXP max_iterSEXP, SEXP ABSTOLSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type S(SSEXP);
+    Rcpp::traits::input_parameter< const double >::type lambda1(lambda1SEXP);
+    Rcpp::traits::input_parameter< const double >::type lambda2(lambda2SEXP);
+    Rcpp::traits::input_parameter< int >::type band(bandSEXP);
+    Rcpp::traits::input_parameter< List >::type A(ASEXP);
+    Rcpp::traits::input_parameter< const double >::type max_iter(max_iterSEXP);
+    Rcpp::traits::input_parameter< double >::type ABSTOL(ABSTOLSEXP);
+    rcpp_result_gen = Rcpp::wrap(iter_trend(x, S, lambda1, lambda2, band, A, max_iter, ABSTOL));
+    return rcpp_result_gen;
+END_RCPP
+}
+// hp_coef
+arma::vec hp_coef(arma::mat Bii, arma::mat D, arma::vec y, double lambda1, double lambda2);
+RcppExport SEXP _SC_hp_coef(SEXP BiiSEXP, SEXP DSEXP, SEXP ySEXP, SEXP lambda1SEXP, SEXP lambda2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Bii(BiiSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type D(DSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type y(ySEXP);
+    Rcpp::traits::input_parameter< double >::type lambda1(lambda1SEXP);
+    Rcpp::traits::input_parameter< double >::type lambda2(lambda2SEXP);
+    rcpp_result_gen = Rcpp::wrap(hp_coef(Bii, D, y, lambda1, lambda2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// hp_update
+arma::vec hp_update(arma::vec& x, arma::mat S, const double lambda1, const double lambda2, int band, List A);
+RcppExport SEXP _SC_hp_update(SEXP xSEXP, SEXP SSEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP bandSEXP, SEXP ASEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type S(SSEXP);
+    Rcpp::traits::input_parameter< const double >::type lambda1(lambda1SEXP);
+    Rcpp::traits::input_parameter< const double >::type lambda2(lambda2SEXP);
+    Rcpp::traits::input_parameter< int >::type band(bandSEXP);
+    Rcpp::traits::input_parameter< List >::type A(ASEXP);
+    rcpp_result_gen = Rcpp::wrap(hp_update(x, S, lambda1, lambda2, band, A));
+    return rcpp_result_gen;
+END_RCPP
+}
+// iter_hp
+Rcpp::List iter_hp(arma::vec& x, arma::mat S, const double lambda1, const double lambda2, int band, List A, const double max_iter, double ABSTOL);
+RcppExport SEXP _SC_iter_hp(SEXP xSEXP, SEXP SSEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP bandSEXP, SEXP ASEXP, SEXP max_iterSEXP, SEXP ABSTOLSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type S(SSEXP);
+    Rcpp::traits::input_parameter< const double >::type lambda1(lambda1SEXP);
+    Rcpp::traits::input_parameter< const double >::type lambda2(lambda2SEXP);
+    Rcpp::traits::input_parameter< int >::type band(bandSEXP);
+    Rcpp::traits::input_parameter< List >::type A(ASEXP);
+    Rcpp::traits::input_parameter< const double >::type max_iter(max_iterSEXP);
+    Rcpp::traits::input_parameter< double >::type ABSTOL(ABSTOLSEXP);
+    rcpp_result_gen = Rcpp::wrap(iter_hp(x, S, lambda1, lambda2, band, A, max_iter, ABSTOL));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpparma_hello_world
 arma::mat rcpparma_hello_world();
 RcppExport SEXP _SC_rcpparma_hello_world() {
@@ -78,6 +276,20 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_SC_dvec_C", (DL_FUNC) &_SC_dvec_C, 1},
     {"_SC_offsubsum", (DL_FUNC) &_SC_offsubsum, 4},
+    {"_SC_diag_update", (DL_FUNC) &_SC_diag_update, 4},
+    {"_SC_soft_threshold", (DL_FUNC) &_SC_soft_threshold, 2},
+    {"_SC_weighted_soft_threshold", (DL_FUNC) &_SC_weighted_soft_threshold, 3},
+    {"_SC_matGenerateC", (DL_FUNC) &_SC_matGenerateC, 1},
+    {"_SC_fused_coef", (DL_FUNC) &_SC_fused_coef, 2},
+    {"_SC_trend_coef", (DL_FUNC) &_SC_trend_coef, 2},
+    {"_SC_getd1d", (DL_FUNC) &_SC_getd1d, 1},
+    {"_SC_getdtf", (DL_FUNC) &_SC_getdtf, 2},
+    {"_SC_iter_fused", (DL_FUNC) &_SC_iter_fused, 8},
+    {"_SC_trend_update", (DL_FUNC) &_SC_trend_update, 6},
+    {"_SC_iter_trend", (DL_FUNC) &_SC_iter_trend, 8},
+    {"_SC_hp_coef", (DL_FUNC) &_SC_hp_coef, 5},
+    {"_SC_hp_update", (DL_FUNC) &_SC_hp_update, 6},
+    {"_SC_iter_hp", (DL_FUNC) &_SC_iter_hp, 8},
     {"_SC_rcpparma_hello_world", (DL_FUNC) &_SC_rcpparma_hello_world, 0},
     {"_SC_rcpparma_outerproduct", (DL_FUNC) &_SC_rcpparma_outerproduct, 1},
     {"_SC_rcpparma_innerproduct", (DL_FUNC) &_SC_rcpparma_innerproduct, 1},

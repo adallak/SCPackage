@@ -25,6 +25,7 @@
 #' sample covariance matrix
 #' L_fused = sc(S, lambda1 = 0, lambda2 = 0.2, type = "fused")
 #' S <- crossprod(scale(X, center = TRUE, scale = FALSE)) / n
+#' L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "fused")
 
 smoothchol<-function(S, lambda1 = 0, lambda2, max_iter=50, init.x=NULL, type= c("fused","lasso","l1trend","HP"), 
                      band=NULL , ABSTOL   = 1e-4 )

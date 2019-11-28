@@ -85,7 +85,7 @@ The `sc`function takes the following parameters:
 - `band` - if specified, algorithm forces the rest of entries zero and iterates only over specifed subdiagonals.
 - `ABSTOL` - Tolerance for algorithm convergence.
 
-```r{}
+```{r}
 # use identity matrix as initial estimate
-L_fused = sc(S, lambda1 = 0, lambda2 = 0.2, type = "fused")
+L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "fused")
 ```

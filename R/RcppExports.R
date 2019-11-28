@@ -9,6 +9,62 @@ offsubsum <- function(A, x, i, S) {
     .Call('_SC_offsubsum', PACKAGE = 'SC', A, x, i, S)
 }
 
+diag_update <- function(A, x, S, i = 1L) {
+    .Call('_SC_diag_update', PACKAGE = 'SC', A, x, S, i)
+}
+
+soft_threshold <- function(y, lambda1) {
+    .Call('_SC_soft_threshold', PACKAGE = 'SC', y, lambda1)
+}
+
+weighted_soft_threshold <- function(y, weight, lambda1) {
+    .Call('_SC_weighted_soft_threshold', PACKAGE = 'SC', y, weight, lambda1)
+}
+
+matGenerateC <- function(p) {
+    .Call('_SC_matGenerateC', PACKAGE = 'SC', p)
+}
+
+fused_coef <- function(y, lambda2) {
+    .Call('_SC_fused_coef', PACKAGE = 'SC', y, lambda2)
+}
+
+trend_coef <- function(y, lambda2) {
+    .Call('_SC_trend_coef', PACKAGE = 'SC', y, lambda2)
+}
+
+getd1d <- function(j) {
+    .Call('_SC_getd1d', PACKAGE = 'SC', j)
+}
+
+getdtf <- function(j, ord) {
+    .Call('_SC_getdtf', PACKAGE = 'SC', j, ord)
+}
+
+iter_fused <- function(x, S, lambda1, lambda2, band, A, max_iter, ABSTOL) {
+    .Call('_SC_iter_fused', PACKAGE = 'SC', x, S, lambda1, lambda2, band, A, max_iter, ABSTOL)
+}
+
+trend_update <- function(x, S, lambda1, lambda2, band, A) {
+    .Call('_SC_trend_update', PACKAGE = 'SC', x, S, lambda1, lambda2, band, A)
+}
+
+iter_trend <- function(x, S, lambda1, lambda2, band, A, max_iter, ABSTOL) {
+    .Call('_SC_iter_trend', PACKAGE = 'SC', x, S, lambda1, lambda2, band, A, max_iter, ABSTOL)
+}
+
+hp_coef <- function(Bii, D, y, lambda1, lambda2) {
+    .Call('_SC_hp_coef', PACKAGE = 'SC', Bii, D, y, lambda1, lambda2)
+}
+
+hp_update <- function(x, S, lambda1, lambda2, band, A) {
+    .Call('_SC_hp_update', PACKAGE = 'SC', x, S, lambda1, lambda2, band, A)
+}
+
+iter_hp <- function(x, S, lambda1, lambda2, band, A, max_iter, ABSTOL) {
+    .Call('_SC_iter_hp', PACKAGE = 'SC', x, S, lambda1, lambda2, band, A, max_iter, ABSTOL)
+}
+
 rcpparma_hello_world <- function() {
     .Call('_SC_rcpparma_hello_world', PACKAGE = 'SC')
 }
