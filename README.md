@@ -36,7 +36,7 @@ Having true Cholesky factor, we can then generate a data matrix $X \in \mathbb{R
 library(varband)
 n = 100
 # random sample
-X <- sample_gen(L = true, n = n)
+X <- sample_gen(L = L_true, n = n)
 # sample covariance matrix
 S <- crossprod(scale(X, center = TRUE, scale = FALSE)) / n
 ```

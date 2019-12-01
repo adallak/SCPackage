@@ -47,7 +47,7 @@ sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lamb
 #' @param stand       If TRUE, data transformes into standardard version.
 #'
 #' @return
-#' @export
+#' @export 
 #'
 #' @examples  
 #'   X = matrix(rnorm(500), nrow = 50, ncol = 10) 
