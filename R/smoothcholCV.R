@@ -1,4 +1,4 @@
-sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lambda2"), 
+sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lambda2"), stamd = stand,
                  lambda2 = 0, lambda1 = 0, n_lambda = 60, max_iter=50, pen.type=c("HP","fused","l1trend"), band=NULL, ABSTOL = 1e-4 )
 {
   n <- dim(X)[1]
@@ -112,7 +112,7 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
     }
     
     sc_fit = sc_seq(X = xtrain, lambda_seq = lambda2_seq, init.x = init.x, lambda.type = c("lambda2"), n_lambda = n_lambda, max_iter=max_iter,
-                    pen.type= penalty, band = band, vers = vers, ABSTOL = ABSTOL, stand = stand )$x_mat
+                    pen.type= penalty, band = band, ABSTOL = ABSTOL, stand = stand )$x_mat
     for ( i in 1 : n_lambda)
     {
       omega = crossprod(Lfromx(sc_fit[, i], p))
@@ -159,7 +159,7 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
       }
       
       sc_fit_lambda1 = sc_seq(X = xtrain, lambda_seq = lambda1_seq, lambda2 = lambda2_min, init.x = init.x, lambda.type = c("lambda1"), n_lambda = n_lambda, max_iter=max_iter,
-                              pen.type= penalty, band = band, vers = vers, ABSTOL = ABSTOL, stand = stand )$x_mat
+                              pen.type= penalty, band = band, ABSTOL = ABSTOL, stand = stand )$x_mat
       
       for ( i in 1 : n_lambda1)
       {
