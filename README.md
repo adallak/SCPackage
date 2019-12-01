@@ -6,11 +6,10 @@ This document serves as an introduction of using the package.
 
 The main function is `smoothchol`, which takes a sample covariance matrix of the observations and returns the estimate of $L$. 
 =======
-The `SC` is a package that estimates a Cholesky factor of inverse covariance matrix via penalized maximum likelihood under local stationary assumption. In particular, given a data matrix \eqn{X \in \mathbb{R}^{n \times p}}, with each row an observation of a \eqn{p} dimensional random vector \eqn{X \sim N(0, \Omega^{-1} = (L^T L)^{-1})}, this package implements a penalized likelihood-based approach of estimating \eqn{L} by smoothing its subdiagonals.
+The `SC` is a package that estimates a Cholesky factor of inverse covariance matrix via penalized maximum likelihood under local stationary assumption. In particular, given a data matrix $X \in \mathbb{R}^{n \times p}$, with each row an observation of a $p$ dimensional random vector $X \sim N(0, \Omega^{-1} = (L^T L)^{-1})$, this package implements a penalized likelihood-based approach of estimating $L$ by smoothing its subdiagonals.
 This document serves as an introduction of using the package.
 
-The main function is `smoothchol`, which takes a sample covariance matrix of the observations and returns the estimate of \eqn{L}. 
->>>>>>> d3be9402f9262c662d53b8c5b94635c45486e7a0
+The main function is `smoothchol`, which takes a sample covariance matrix of the observations and returns the estimate of $L$. 
 
 ## Installation
 
@@ -22,7 +21,7 @@ devtools::install_github("adallak/SCPackage")
 ```
 
 ## Usage
-The package contains function `generateL` for generating true standard and modified Cholesky factor \eqn{L}. It takes as an input number of variables and number of bands and returns the Cholesky Factor. 
+The package contains function `generateL` for generating true standard and modified Cholesky factor $L$. It takes as an input number of variables and number of bands and returns the Cholesky Factor. 
 ```s
 library(SC)
 set.seed(12)
@@ -31,7 +30,7 @@ band <- 5
 L_true <- generateL(p = p, band = band)
 ```
 
-Having true Cholesky factor, we can then generate a data matrix \eqn{X \in \mathbb{R}^{n \times p}} with each row a random sample drawn independently from a Gaussian distribution of mean zero and covariance \eqn{\Sigma = (L^T L)^{-1}}. We use function `sample_gen` from the package `varband` to generate the data. 
+Having true Cholesky factor, we can then generate a data matrix $X \in \mathbb{R}^{n \times p}$ with each row a random sample drawn independently from a Gaussian distribution of mean zero and covariance $\Sigma = (L^T L)^{-1}$. We use function `sample_gen` from the package `varband` to generate the data. 
 
 ```s
 library(varband)
