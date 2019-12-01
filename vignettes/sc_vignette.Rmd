@@ -3,7 +3,7 @@ title: "sc_vignette"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{sc_vignette}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---
 
