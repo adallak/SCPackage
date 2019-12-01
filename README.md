@@ -1,9 +1,9 @@
 # SCPackage
 ## Introduction
-The `SC` is a package that estimates a Cholesky factor of inverse covariance matrix via penalized maximum likelihood under local stationary assumption. In particular, given a data matrix $X \in \mathbb{R}^{n \times p}$, with each row an observation of a $p$ dimensional random vector $X \sim N(0, \Omega^{-1} = (L^T L)^{-1})$, this package implements a penalized likelihood-based approach of estimating $L$ by smoothing its subdiagonals.
+The `SC` is a package that estimates a Cholesky factor of inverse covariance matrix via penalized maximum likelihood under local stationary assumption. In particular, given a data matrix $X \in \mathbb{R}^{n \times p}$, with each row an observation of a $p$ dimensional random vector ${X \sim N(0, \Omega^{-1} = (L^T L)^{-1})$, this package implements a penalized likelihood-based approach of estimating $L$ by smoothing its subdiagonals.
 This document serves as an introduction of using the package.
 
-The main function is `sc`, which takes a sample covariance matrix of the observations and returns the estimate of $L$. 
+The main function is `smoothchol`, which takes a sample covariance matrix of the observations and returns the estimate of $L$. 
 
 ## Installation
 
@@ -45,7 +45,7 @@ The `sc`function takes the following parameters:
 - `max_iter` - Number of iteration for block coordinate algorithm
 - `init.x`   - Initial vectorized Cholesky vactor $L$. If `NULL`, the default is $vec(\sqrt{diag(S)})$.
 - `type` - type of the smoothing penalty
-- `band` - if specified, algorithm forces the rest of entries zero and iterates only over specifed subdiagonals.
+- `band` - if specified, algorithm iterates only over specifed number of subdiagonals and forces the rest of entries to be equal to zero.
 - `ABSTOL` - Tolerance for algorithm convergence.
 
 ```s
