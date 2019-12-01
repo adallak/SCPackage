@@ -50,5 +50,5 @@ The `sc`function takes the following parameters:
 
 ```s
 # use identity matrix as initial estimate
-L_fused = sc(S, lambda1 = 0, lambda2 = 0.2, type = "fused")
+L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "fused")
 ```
