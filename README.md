@@ -41,9 +41,9 @@ S <- crossprod(scale(X, center = TRUE, scale = FALSE)) / n
 The `sc`function takes the following parameters:
 - `S` - sample covariance matrix
 - `lambda1` - controls the sparsity level
-- `lambda_2` - controls the smoothness
+- `lambda_2` - controls the smoothness level
 - `max_iter` - Number of iteration for block coordinate algorithm
-- `init.x`   - Initial vectorized Cholesky vactor $L$. If `NULL`, the default is $vec(\sqrt{diag(S)})$.
+- `init.x`   - Initial vectorized Cholesky factor $L$. If `NULL`, the default is $vec(\sqrt{diag(S)})$.
 - `type` - type of the smoothing penalty
 - `band` - if specified, algorithm iterates only over specifed number of subdiagonals and forces the rest of entries to be equal to zero.
 - `ABSTOL` - Tolerance for algorithm convergence.
