@@ -2,6 +2,7 @@
 
 export(generateL)
 export(smoothchol)
+export(smoothcholCV)
 import(stats)
 importFrom(Rcpp,evalCpp)
 importFrom(flsa,flsa)

@@ -43,4 +43,5 @@ X <- sample_gen(L = true, n = n)
 sample covariance matrix
 L_fused = sc(S, lambda1 = 0, lambda2 = 0.2, type = "fused")
 S <- crossprod(scale(X, center = TRUE, scale = FALSE)) / n
+L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "fused")
 }
