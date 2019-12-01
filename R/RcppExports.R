@@ -65,19 +65,3 @@ iter_hp <- function(x, S, lambda1, lambda2, band, A, max_iter, ABSTOL) {
     .Call('_SC_iter_hp', PACKAGE = 'SC', x, S, lambda1, lambda2, band, A, max_iter, ABSTOL)
 }
 
-rcpparma_hello_world <- function() {
-    .Call('_SC_rcpparma_hello_world', PACKAGE = 'SC')
-}
-
-rcpparma_outerproduct <- function(x) {
-    .Call('_SC_rcpparma_outerproduct', PACKAGE = 'SC', x)
-}
-
-rcpparma_innerproduct <- function(x) {
-    .Call('_SC_rcpparma_innerproduct', PACKAGE = 'SC', x)
-}
-
-rcpparma_bothproducts <- function(x) {
-    .Call('_SC_rcpparma_bothproducts', PACKAGE = 'SC', x)
-}
-

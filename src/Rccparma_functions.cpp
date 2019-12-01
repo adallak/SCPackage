@@ -260,6 +260,7 @@ Rcpp::List iter_fused(arma::vec &x,arma::mat S,const double lambda1, const doubl
 
 // 
 // [[Rcpp::export]]
+
 arma::vec trend_update(arma::vec x, arma::mat S, const double lambda1, const double lambda2, int band, List A){
   int p= S.n_rows;
   arma::vec Bii;
@@ -304,6 +305,7 @@ arma::vec trend_update(arma::vec x, arma::mat S, const double lambda1, const dou
 }
 
 // [[Rcpp::export]]
+
 Rcpp::List iter_trend(arma::vec &x,arma::mat S,const double lambda1, const double lambda2,int band, List A,const double max_iter,double  ABSTOL   ){
   //  double  ABSTOL   = 1e-3;
   // double  RELTOL   = 1e-4;

@@ -22,15 +22,15 @@ The DESCRIPTION file:
 Maintainer: \packageMaintainer{SC}
 }
 \references{
-~~ Literature or other references for background information ~~
+Dallakyan A. and Pourahmadi M. - Learning Smooth CHolesky Factors of Large Covariance Matrices (2019)
 }
-~~ Optionally other standard keywords, one per line, from file ~~
-~~ KEYWORDS in the R documentation directory ~~
 \keyword{ package }
-\seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
-}
 \examples{
-~~ simple examples of the most important functions ~~
+n = 100
+# random sample
+X <- sample_gen(L = true, n = n)
+# sample covariance matrix
+S <- crossprod(scale(X, center = TRUE, scale = FALSE)) / n
+# use identity matrix as initial estimate
+L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "fused")
 }
