@@ -128,13 +128,29 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// fused_update
+arma::vec fused_update(arma::vec x, arma::mat S, const double lambda1, const double lambda2, int band, List A);
+RcppExport SEXP _SC_fused_update(SEXP xSEXP, SEXP SSEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP bandSEXP, SEXP ASEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type S(SSEXP);
+    Rcpp::traits::input_parameter< const double >::type lambda1(lambda1SEXP);
+    Rcpp::traits::input_parameter< const double >::type lambda2(lambda2SEXP);
+    Rcpp::traits::input_parameter< int >::type band(bandSEXP);
+    Rcpp::traits::input_parameter< List >::type A(ASEXP);
+    rcpp_result_gen = Rcpp::wrap(fused_update(x, S, lambda1, lambda2, band, A));
+    return rcpp_result_gen;
+END_RCPP
+}
 // iter_fused
-Rcpp::List iter_fused(arma::vec& x, arma::mat S, const double lambda1, const double lambda2, int band, List A, const double max_iter, double ABSTOL);
+Rcpp::List iter_fused(arma::vec x, arma::mat S, const double lambda1, const double lambda2, int band, List A, const double max_iter, double ABSTOL);
 RcppExport SEXP _SC_iter_fused(SEXP xSEXP, SEXP SSEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP bandSEXP, SEXP ASEXP, SEXP max_iterSEXP, SEXP ABSTOLSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type S(SSEXP);
     Rcpp::traits::input_parameter< const double >::type lambda1(lambda1SEXP);
     Rcpp::traits::input_parameter< const double >::type lambda2(lambda2SEXP);
@@ -163,12 +179,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // iter_trend
-Rcpp::List iter_trend(arma::vec& x, arma::mat S, const double lambda1, const double lambda2, int band, List A, const double max_iter, double ABSTOL);
+Rcpp::List iter_trend(arma::vec x, arma::mat S, const double lambda1, const double lambda2, int band, List A, const double max_iter, double ABSTOL);
 RcppExport SEXP _SC_iter_trend(SEXP xSEXP, SEXP SSEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP bandSEXP, SEXP ASEXP, SEXP max_iterSEXP, SEXP ABSTOLSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type S(SSEXP);
     Rcpp::traits::input_parameter< const double >::type lambda1(lambda1SEXP);
     Rcpp::traits::input_parameter< const double >::type lambda2(lambda2SEXP);
@@ -241,6 +257,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_SC_trend_coef", (DL_FUNC) &_SC_trend_coef, 2},
     {"_SC_getd1d", (DL_FUNC) &_SC_getd1d, 1},
     {"_SC_getdtf", (DL_FUNC) &_SC_getdtf, 2},
+    {"_SC_fused_update", (DL_FUNC) &_SC_fused_update, 6},
     {"_SC_iter_fused", (DL_FUNC) &_SC_iter_fused, 8},
     {"_SC_trend_update", (DL_FUNC) &_SC_trend_update, 6},
     {"_SC_iter_trend", (DL_FUNC) &_SC_iter_trend, 8},

@@ -41,6 +41,10 @@ getdtf <- function(j, ord) {
     .Call('_SC_getdtf', PACKAGE = 'SC', j, ord)
 }
 
+fused_update <- function(x, S, lambda1, lambda2, band, A) {
+    .Call('_SC_fused_update', PACKAGE = 'SC', x, S, lambda1, lambda2, band, A)
+}
+
 iter_fused <- function(x, S, lambda1, lambda2, band, A, max_iter, ABSTOL) {
     .Call('_SC_iter_fused', PACKAGE = 'SC', x, S, lambda1, lambda2, band, A, max_iter, ABSTOL)
 }

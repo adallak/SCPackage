@@ -232,7 +232,7 @@ Rcpp::List iter_fused(arma::vec x,arma::mat S,const double lambda1, const double
   arma::vec x_temp;
   arma::vec vecL;
   //int p = S.n_rows;
-  for (int iter =0; iter<(max_iter + 1);iter++)
+  for (int iter =0; iter<(max_iter);iter++)
   {
     oldL = x;
     x_temp = fused_update(x, S, lambda1, lambda2, band, A);
@@ -244,7 +244,7 @@ Rcpp::List iter_fused(arma::vec x,arma::mat S,const double lambda1, const double
     if (history(iter) <= ABSTOL){
       break;
     }
-    if(iter==(max_iter))
+    if(iter==(max_iter - 1))
     {
       Rcpp::Rcout << "SSC fails to converge" << std::endl;
     }
@@ -312,7 +312,7 @@ Rcpp::List iter_trend(arma::vec x,arma::mat S, const double lambda1, const doubl
   arma::vec x_temp;
   arma::vec vecL;
   //int p = S.n_rows;
-  for (int iter = 0; iter < (max_iter + 1); iter++)
+  for (int iter = 0; iter < (max_iter); iter++)
   {
     oldL = x;
     x_temp = trend_update(x, S, lambda1, lambda2, band, A);
@@ -321,7 +321,7 @@ Rcpp::List iter_trend(arma::vec x,arma::mat S, const double lambda1, const doubl
     history(iter)  = arma::norm((vecL - oldL),"inf");
     //   Rcpp::Rcout <<history(iter) << std::endl;
     //  double current_iter = arma::as_scalar(history(iter));
-    if (history(iter) <= ABSTOL){
+    if (history(iter - 1) <= ABSTOL){
       break;
     }
     if(iter == (max_iter))
