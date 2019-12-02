@@ -4,9 +4,8 @@
 \alias{smoothchol}
 \title{Title}
 \usage{
-smoothchol(S, lambda1 = 0, lambda2, max_iter = 50, init.x = NULL,
-  type = c("fused", "lasso", "l1trend", "HP"), band = NULL,
-  ABSTOL = 1e-04)
+smoothchol(S, lambda1 = 0, lambda2, max_iter = 70, init.x = NULL,
+  type = c("fused", "l1trend", "HP"), band = NULL, ABSTOL = 0.001)
 }
 \arguments{
 \item{S}{Sample Covariance Matrix}

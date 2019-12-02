@@ -35,7 +35,7 @@ To install the latest version from Github, use
 
 
 ```r
-library(devtools)
+#library(devtools)
 #devtools::install_github("adallak/SCPackage")
 ```
 
@@ -56,48 +56,13 @@ The package contains function `generateL` for generating true standard and modif
 set.seed(12)
 p <- 50
 band <- 5
-#L_true <- generateL(p = p, band = band)
+L_true <- generateL(p = p, band = band)
 ```
 
 Having true Cholesky factor, we can then generate a data matrix $X \in \mathbb{R}^{n \times p}$ with each row a random sample drawn independently from a Gaussian distribution of mean zero and covariance $\Sigma = (L^T L)^{-1}$. We use function `sample_gen` from the package `varband` to generate the data. After centering the dat, the sample covariance is esitmated by $S = \frac{X^tX}{n}$
 
 
-```r
-library(varband)
-n = 100
-p = 50
-# random sample
-L.true <- varband_gen(p = p, block = 5)
-X <- sample_gen(L = L.true, n = n)
-# sample covariance matrix
-S <- crossprod(scale(X, center = TRUE, scale = FALSE)) / n
-```
-
-We can plot the sparsity patterns of the true model and the sample covariance matrix by using `matimage` function from the package `varband`. 
 
 
-```r
-par(mfrow = c(1, 2), mar = c(0, 0, 2, 0))
-matimage(L.true, main = "True L")
-matimage(S, main = "Sample covariance matrix")
-```
-
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png)
-
-## Estimating L with a fixed tuning parameter
-
-The `sc`function takes the following parameters:
-- `S` - sample covariance matrix
-- `lambda1` - controls the sparsity level
-- `lambda_2` - controls the smoothness
-- `max_iter` - Number of iteration for block coordinate algorithm
-- `init.x`   - Initial vectorized Cholesky vactor $L$. If `NULL`, the default is $vec(\sqrt{diag(S)})$.
-- `type` - type of the smoothing penalty
-- `band` - if specified, algorithm forces the rest of entries zero and iterates only over specifed subdiagonals.
-- `ABSTOL` - Tolerance for algorithm convergence.
 
 
-```r
-# use identity matrix as initial estimate
-#L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "fused")
-```

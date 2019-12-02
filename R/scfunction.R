@@ -27,8 +27,8 @@
 #' S <- crossprod(scale(X, center = TRUE, scale = FALSE)) / n
 #' L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "fused")
 
-smoothchol<-function(S, lambda1 = 0, lambda2, max_iter=50, init.x=NULL, type= c("fused","lasso","l1trend","HP"), 
-                     band=NULL , ABSTOL   = 1e-4 )
+smoothchol<-function(S, lambda1 = 0, lambda2, max_iter = 70, init.x = NULL, type= c("fused", "l1trend", "HP"), 
+                     band=NULL , ABSTOL   = 1e-3 )
 {
   type = match.arg(type)
   lambda2 <- lambda2
@@ -78,16 +78,16 @@ smoothchol<-function(S, lambda1 = 0, lambda2, max_iter=50, init.x=NULL, type= c(
 ##################################################################
 ### This function converts vector x to lower triangular matrix L
 
-Lfromx<-function(x,p)
+Lfromx <- function(x, p)
 {
   L <- matrix(0, p, p)
   diag(L) = x[1 : p]
   L[p,1] = x[ length(x) ]
   k = 0
   m <- 0
-  for (i in 1:(p-2))
+  for (i in 1 : (p - 2))
   {
-    l= length(diag(L[-( 1 : i),-(p :(p - i + 1))]))
+    l = length(diag(L[-( 1 : i), -(p :(p - i + 1))]))
     k = k + l
     #    print(k)
     #    cat("L length",length(diag(L[-(1:i),-(p:(p-i+1))])),"\n")
