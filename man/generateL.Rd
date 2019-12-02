@@ -4,8 +4,8 @@
 \alias{generateL}
 \title{Title}
 \usage{
-generateL(p, band = NULL, scaled = FALSE, case = c("b", "c", "d"),
-  seed = 25, ...)
+generateL(p, band = NULL, scaled = FALSE, case = c("a", "b", "c",
+  "d"), seed = 25, ...)
 }
 \arguments{
 \item{p}{Number of observations}
