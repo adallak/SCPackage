@@ -1,7 +1,6 @@
 Package: SC
 Type: Package
-Title: Implement block coordinate algorithm to estimate large covariance and Cholesky Factor for local stationary processes.
-Version: 1.0.0
+Title: Learning Smooth Cholesky Factors of Large Covariance Matrices
 Date: 2019-11-17 
 Author: Aramayis Dallakyan
 Maintainer: Aramayis Dallakyan <dallakyan1988@tamu.edu>
