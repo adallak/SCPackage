@@ -133,7 +133,6 @@ generateL<-function(p,band=NULL,scaled=FALSE,case=c("b","c","d"),seed=25,...)
   ii[upper.tri(ii)]<-0
   K <- band + 1
   L <- (ii <= K) &(ii !=0)
-  print(L)
   for(i in 2:(band+1))
   {
     if (i==p-1)

@@ -40,16 +40,16 @@ arma::vec offsubsum(const List &A,const arma::vec &x,const int &i, const arma::m
         summ(span((j - i), (li - 1))) = summ(span((j-i), (li - 1))) + S(span((j - i), (li - 1)), span(0, (lj - 1))).diag() % xj;
       }else{
         summ(span((j-i), (li - 1))) = summ(span((j-i), (li - 1))) + 
-              S((j-i), (lj - 1)) * xj;
+          S((j-i), (lj - 1)) * xj;
       }
     } else if (j < i){
       if (i != p){
         summ = summ + S(span((i - j), (lj - 1)), span(0, (li - 1))).diag() % xj(span(i - j, lj - 1));
       }else{
-       summ = summ + S(span((i - j), (lj - 1)), span(0, (li - 1))) * xj(span(i - j, lj - 1));
+        summ = summ + S(span((i - j), (lj - 1)), span(0, (li - 1))) * xj(span(i - j, lj - 1));
       }
     }
-
+    
   }
   return summ;
 }
@@ -179,7 +179,7 @@ arma::mat getdtf(const int j, const int ord){
 }
 
 
-// // [[Rcpp::export]]
+// [[Rcpp::export]]
 arma::vec fused_update(arma::vec x, arma::mat S, const double lambda1, const double lambda2,int band, List A){
   int p= S.n_rows;
   arma::vec Bii;
@@ -199,17 +199,15 @@ arma::vec fused_update(arma::vec x, arma::mat S, const double lambda1, const dou
     //    Bi = diagmat(sqrt(Bii.diag()));
     sqrt_Bii = sqrt(Bii);
     sqrt_Bii_inv = 1 / sqrt_Bii ;
-    if(i >= (p-1)){
+    if(i > (p-1)){
       arma::uvec ind = A[i-1];
-      //     ind.print();
       x.elem(ind - 1).zeros();
     }else{
       arma::uvec ind = A[i - 1];
-      temp_y = (-1) * sqrt_Bii % offsubsum(A, x, i, S);
+      temp_y = (-1) * sqrt_Bii_inv % offsubsum(A, x, i, S);
       y = arma::conv_to< std::vector<double>  >::from(temp_y);// wrap(temp_y);
-      x.elem(ind - 1) = fused_coef(y, lambda2);
-      x.elem(ind - 1) = sqrt_Bii_inv % x.elem(ind - 1);
-      //      x.elem(ind-1).print();
+      arma::vec x_i = fused_coef(y, lambda2);
+      x.elem(ind - 1) = sqrt_Bii_inv % x_i;
     }
     if (lambda1 > 0){
       arma::uvec ind = A[i - 1];
@@ -221,12 +219,12 @@ arma::vec fused_update(arma::vec x, arma::mat S, const double lambda1, const dou
   }
   arma::uvec ind1 = A[0];
   x.elem(ind1-1)= diag_update(A,x,S);
-  
   return x;
 }
 // 
+
 // [[Rcpp::export]]
-Rcpp::List iter_fused(arma::vec &x,arma::mat S,const double lambda1, const double lambda2,int band, List A,const double max_iter,double  ABSTOL   ){
+Rcpp::List iter_fused(arma::vec x,arma::mat S,const double lambda1, const double lambda2,int band, List A,const double max_iter,double  ABSTOL   ){
   //  double  ABSTOL   = 1e-3;
   // double  RELTOL   = 1e-4;
   arma::vec history(max_iter);
@@ -234,7 +232,7 @@ Rcpp::List iter_fused(arma::vec &x,arma::mat S,const double lambda1, const doubl
   arma::vec x_temp;
   arma::vec vecL;
   //int p = S.n_rows;
-  for (int iter =0; iter<(max_iter);iter++)
+  for (int iter =0; iter<(max_iter + 1);iter++)
   {
     oldL = x;
     x_temp = fused_update(x, S, lambda1, lambda2, band, A);
@@ -246,7 +244,7 @@ Rcpp::List iter_fused(arma::vec &x,arma::mat S,const double lambda1, const doubl
     if (history(iter) <= ABSTOL){
       break;
     }
-    if(iter==(max_iter-1))
+    if(iter==(max_iter))
     {
       Rcpp::Rcout << "SSC fails to converge" << std::endl;
     }
@@ -285,7 +283,7 @@ arma::vec trend_update(arma::vec x, arma::mat S, const double lambda1, const dou
       x.elem(ind - 1).zeros();
     }else{
       arma::uvec ind=A[i-1];
-      y= (-1) * sqrt_Bii % offsubsum(A, x, i, S);
+      y= (-1) * sqrt_Bii_inv % offsubsum(A, x, i, S);
       x.elem(ind -1) = trend_coef(y, lambda2);
       x.elem(ind - 1) = sqrt_Bii_inv % x.elem(ind - 1);
       //      x.elem(ind-1).print();
@@ -306,7 +304,7 @@ arma::vec trend_update(arma::vec x, arma::mat S, const double lambda1, const dou
 
 // [[Rcpp::export]]
 
-Rcpp::List iter_trend(arma::vec &x,arma::mat S,const double lambda1, const double lambda2,int band, List A,const double max_iter,double  ABSTOL   ){
+Rcpp::List iter_trend(arma::vec x,arma::mat S, const double lambda1, const double lambda2,int band, List A,const double max_iter,double  ABSTOL   ){
   //  double  ABSTOL   = 1e-3;
   // double  RELTOL   = 1e-4;
   arma::vec    history(max_iter);
@@ -314,11 +312,11 @@ Rcpp::List iter_trend(arma::vec &x,arma::mat S,const double lambda1, const doubl
   arma::vec x_temp;
   arma::vec vecL;
   //int p = S.n_rows;
-  for (int iter = 0; iter < (max_iter); iter++)
+  for (int iter = 0; iter < (max_iter + 1); iter++)
   {
     oldL = x;
-    x_temp = trend_update(x,S,lambda1,lambda2,band,A);
-    x=x_temp;
+    x_temp = trend_update(x, S, lambda1, lambda2, band, A);
+    x = x_temp;
     vecL = x;
     history(iter)  = arma::norm((vecL - oldL),"inf");
     //   Rcpp::Rcout <<history(iter) << std::endl;
@@ -326,7 +324,7 @@ Rcpp::List iter_trend(arma::vec &x,arma::mat S,const double lambda1, const doubl
     if (history(iter) <= ABSTOL){
       break;
     }
-    if(iter == (max_iter - 1))
+    if(iter == (max_iter))
     {
       Rcpp::Rcout << "SSC fails to converge" << std::endl;
     }
@@ -340,9 +338,9 @@ Rcpp::List iter_trend(arma::vec &x,arma::mat S,const double lambda1, const doubl
 //// HP update
 // [[Rcpp::export]]
 arma::vec hp_coef(arma::mat Bii, arma::mat D,arma::vec y, double lambda1,double lambda2){
-  //arma::vec (sign(y)*pmax(abs(y)-lambda1,0))
+  arma::vec z = solve((2 * Bii + 2 * lambda2 * D.t() * D), y);
   //  arma::vec soft=soft_threshold(y,lambda1);
-  return solve((2 * Bii + 2 * lambda2 * D.t() * D), soft_threshold(y, lambda1));
+  return soft_threshold(z, lambda1);
 }
 
 
@@ -365,7 +363,7 @@ arma::vec hp_update(arma::vec &x, arma::mat S, const double lambda1, const doubl
     //    sqrt_Bi = diagmat(1/(Bi.diag()));
     if(i==(p)){
       arma::uvec ind = A[i - 1];
-      double D = as_scalar(ind);
+      int D = 1;
       //     ind.print();
       x.elem(ind - 1)= soft_threshold(y, lambda1)/(2 * Bii + 2 * lambda2 * std::pow(D, 2));
     }else if(i == (p - 1)){
@@ -418,6 +416,5 @@ Rcpp::List iter_hp(arma::vec &x,arma::mat S,const double lambda1, const double l
                             Rcpp::Named("x") = x));
   //     return x;
 }
-
 
 

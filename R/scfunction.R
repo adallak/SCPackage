@@ -51,12 +51,12 @@ smoothchol<-function(S, lambda1 = 0, lambda2, max_iter=50, init.x=NULL, type= c(
     x <- init.x
   }
   if (type == "fused"){
-    fused = iter_trend(x, S, lambda1, lambda2, band, A, max_iter, ABSTOL )
+    fused = iter_fused(x, S, lambda1, lambda2, band, A, max_iter, ABSTOL )
     x = fused$x
     history = fused$history
   }
   if(type == "l1trend"){
-    l1trend = iter_fused(x, S, lambda1, lambda2, band,A, max_iter, ABSTOL )
+    l1trend = iter_trend(x, S, lambda1, lambda2, band,A, max_iter, ABSTOL )
     x = l1trend$x
     history = l1trend$history
   }
