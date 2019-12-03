@@ -13,8 +13,7 @@
 The DESCRIPTION file:
 \packageDESCRIPTION{SC}
 \packageIndices{SC}
-~~ An overview of how to use the package, including the most ~~
-~~ important functions ~~
+
 }
 \author{
 \packageAuthor{SC}
@@ -34,6 +33,6 @@ L_true = generateL(p = p, band = band, type = "b")$L
 X <- sample_gen(L = L_true, n = n)
 # sample covariance matrix
 S <- crossprod(scale(X, center = TRUE, scale = FALSE)) / n
-# use identity matrix as initial estimate
+# use identity matrix as an initial estimate
 L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "fused", band = band)
 }

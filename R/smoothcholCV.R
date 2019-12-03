@@ -1,5 +1,8 @@
-sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lambda2"), stand = stand,
-                 lambda2 = 0, lambda1 = 0, n_lambda = 60, max_iter=50, pen.type=c("HP","fused","l1trend"), band=NULL, ABSTOL = 1e-4 )
+source("SC_cppintegrates.R")
+#source("band_diag_HP.R")
+
+sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lambda2"), stand = FALSE,
+                 lambda2 = 0, lambda1 = 0, n_lambda = 60, max_iter=50, pen.type=c("HP","fused","l1trend"), band=NULL, ABSTOL = 1e-3 )
 {
   n <- dim(X)[1]
   p <- dim(X)[2]
@@ -12,7 +15,7 @@ sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lamb
     X = standardizeX(X)$Xtilde
     S = crossprod(X) / n
   }else{
-    onevec = matrix(1, p , 1)
+    onevec = matrix(1, n , 1)
     x = X - tcrossprod(onevec) %*% X / n
     S = crossprod(x) / n
   }
@@ -31,29 +34,6 @@ sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lamb
 }
 
 
-#' Title
-#'
-#' @param k  Number of folds
-#' @param X  Data
-#' @param both.lambda Logical type variable,If both.lambda is true perform crossvalidation, first for lambda2, keeping lambda1 constant and then for lambda1 kepping lambda2 value constant at the value found in the previous step.  
-#' @param lambda1_seq Sequence for lambda1 values.
-#' @param lambda2_seq Sequence for lambda2 values.
-#' @param max_iter    Maximum number of iteration.
-#' @param init.x      Initial value for vectorized version of matrix L.
-#' @param band        Number of band to estimate, if NULL estimated entire lower triangular matrix L.
-#' @param n_lambda    If lambda1_seq(lambda2_seq) is NULL, creates sequence for lambdas with given length n_lambda.
-#' @param pen.type    Type of penalty.
-#' @param ABSTOL      Tolerence for the algorithm convergence.
-#' @param stand       If TRUE, data transformes into standardard version.
-#'
-#' @return
-#' @export 
-#'
-#' @examples  
-#'   X = matrix(rnorm(500), nrow = 50, ncol = 10) 
-#'   L.cv = smoothcholCV( k = 5, lambda2_seq = NULL, n_lambda = 60, pen.type = c("fused"))$L_fit
-#' 
-#' 
 smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lambda2_seq = NULL, max_iter = 50
                          , init.x = NULL, band = NULL, n_lambda = 60, pen.type=c("HP","fused","l1trend"), 
                          ABSTOL   = 1e-3, stand = FALSE )
@@ -61,7 +41,8 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
   n = dim(X)[1]
   p = dim(X)[2]
   penalty <- match.arg(pen.type)
-  
+  mat <- matGenerate(p)
+  A <- mat$A
   if(is.null(init.x))
   {
     init.x <- matrix(0, p *(p+1) / 2, 1);
@@ -106,9 +87,9 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
       xtest = standardizeX(xtest)$Xtilde
       Stest = crossprod(xtest) / n_test
     }else{
-      onevec = matrix(1, p , 1)
-      x = xtest - tcrossprod(onevec) %*% xtest / n
-      Stest = crossprod(x) / n
+      onevec = matrix(1, n_test , 1)
+      x = xtest - tcrossprod(onevec) %*% xtest / n_test
+      Stest = crossprod(x) / n_test
     }
     
     sc_fit = sc_seq(X = xtrain, lambda_seq = lambda2_seq, init.x = init.x, lambda.type = c("lambda2"), n_lambda = n_lambda, max_iter=max_iter,
@@ -153,9 +134,9 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
         xtest = standardizeX(xtest)$Xtilde
         Stest = crossprod(xtest)/ n_test
       }else{
-        onevec = matrix(1, p , 1)
-        x = xtest - tcrossprod(onevec) %*% xtest / n
-        Stest = crossprod(x) / n
+        onevec = matrix(1, n_test , 1)
+        x = xtest - tcrossprod(onevec) %*% xtest / n_test
+        Stest = crossprod(x) / n_test
       }
       
       sc_fit_lambda1 = sc_seq(X = xtrain, lambda_seq = lambda1_seq, lambda2 = lambda2_min, init.x = init.x, lambda.type = c("lambda1"), n_lambda = n_lambda, max_iter=max_iter,
