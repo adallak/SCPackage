@@ -199,9 +199,11 @@ arma::vec fused_update(arma::vec x, arma::mat S, const double lambda1, const dou
     //    Bi = diagmat(sqrt(Bii.diag()));
     sqrt_Bii = sqrt(Bii);
     sqrt_Bii_inv = 1 / sqrt_Bii ;
-    if(i > (p-1)){
+    if (i == p){
       arma::uvec ind = A[i-1];
-      x.elem(ind - 1).zeros();
+      temp = x.elem(ind - 1);
+      weight = 1 / (2 * Bii);
+      x.elem(ind-1) = weighted_soft_threshold(temp, weight, lambda1);
     }else{
       arma::uvec ind = A[i - 1];
       temp_y = (-1) * sqrt_Bii_inv % offsubsum(A, x, i, S);
@@ -233,6 +235,7 @@ Rcpp::List iter_fused(arma::vec x,arma::mat S,const double lambda1, const double
   arma::vec vecL;
   //int p = S.n_rows;
   for (int iter =0; iter<(max_iter);iter++)
+    // while(iter < max_iter && history(iter) > ABSTOL)
   {
     oldL = x;
     x_temp = fused_update(x, S, lambda1, lambda2, band, A);
@@ -246,7 +249,7 @@ Rcpp::List iter_fused(arma::vec x,arma::mat S,const double lambda1, const double
     }
     if(iter==(max_iter - 1))
     {
-      Rcpp::Rcout << "SSC fails to converge" << std::endl;
+      Rcpp::Rcout << "SC fails to converge, current value is " << history(iter) << std::endl;
     }
   }
   
@@ -277,22 +280,29 @@ arma::vec trend_update(arma::vec x, arma::mat S, const double lambda1, const dou
     //    Bi = diagmat(sqrt(Bii.diag()));
     sqrt_Bii = sqrt(Bii);
     sqrt_Bii_inv = 1 / sqrt_Bii ;
-    if(i >= (p-1)){
+    if (i == p){
       arma::uvec ind = A[i-1];
-      //     ind.print();
-      x.elem(ind - 1).zeros();
+      temp = x.elem(ind - 1);
+      weight = 1 / (2 * Bii);
+      x.elem(ind-1) = weighted_soft_threshold(temp, weight, lambda1);
+    }else if(i >= (p-2) && i !=p ){
+      arma::uvec ind = A[i - 1];
+      arma::vec temp_y = (-1) * sqrt_Bii_inv % offsubsum(A, x, i, S);
+      std::vector<double> y_i = arma::conv_to< std::vector<double>  >::from(temp_y);// wrap(temp_y);
+      arma::vec x_i = fused_coef(y_i, lambda2);
+      x.elem(ind - 1) = sqrt_Bii_inv % x_i;
     }else{
-      arma::uvec ind=A[i-1];
+      arma::uvec ind = A[i - 1];
       y= (-1) * sqrt_Bii_inv % offsubsum(A, x, i, S);
-      x.elem(ind -1) = trend_coef(y, lambda2);
-      x.elem(ind - 1) = sqrt_Bii_inv % x.elem(ind - 1);
+      arma::vec x_i = trend_coef(y, lambda2);
+      x.elem(ind - 1) = sqrt_Bii_inv % x_i;
       //      x.elem(ind-1).print();
     }
     if (lambda1 > 0){
       arma::uvec ind = A[i - 1];
       temp = x.elem(ind - 1);
       weight = 1 / (2 * Bii);
-      x.elem(ind-1) = weighted_soft_threshold(temp, weight, lambda1);
+      x.elem(ind - 1) = weighted_soft_threshold(temp, weight, lambda1);
       //       temp.print();
     }
   }
@@ -307,12 +317,12 @@ arma::vec trend_update(arma::vec x, arma::mat S, const double lambda1, const dou
 Rcpp::List iter_trend(arma::vec x,arma::mat S, const double lambda1, const double lambda2,int band, List A,const double max_iter,double  ABSTOL   ){
   //  double  ABSTOL   = 1e-3;
   // double  RELTOL   = 1e-4;
-  arma::vec    history(max_iter);
+  arma::vec history(max_iter);
   arma::vec oldL;
   arma::vec x_temp;
   arma::vec vecL;
   //int p = S.n_rows;
-  for (int iter = 0; iter < (max_iter); iter++)
+  for (int iter = 0; iter < (max_iter ); iter++)
   {
     oldL = x;
     x_temp = trend_update(x, S, lambda1, lambda2, band, A);
@@ -321,12 +331,12 @@ Rcpp::List iter_trend(arma::vec x,arma::mat S, const double lambda1, const doubl
     history(iter)  = arma::norm((vecL - oldL),"inf");
     //   Rcpp::Rcout <<history(iter) << std::endl;
     //  double current_iter = arma::as_scalar(history(iter));
-    if (history(iter - 1) <= ABSTOL){
+    if (history(iter) <= ABSTOL){
       break;
     }
-    if(iter == (max_iter))
+    if(iter == (max_iter - 1))
     {
-      Rcpp::Rcout << "SSC fails to converge" << std::endl;
+      Rcpp::Rcout << "SC fails to converge, current value is " << history(iter) << std::endl;
     }
   }
   
@@ -408,7 +418,7 @@ Rcpp::List iter_hp(arma::vec &x,arma::mat S,const double lambda1, const double l
     }
     if(iter == (max_iter - 1))
     {
-      Rcpp::Rcout << "SSC fails to converge" << std::endl;
+      Rcpp::Rcout <<"SC fails to converge, current value is " << history(iter) << std::endl;
     }
   }
   
