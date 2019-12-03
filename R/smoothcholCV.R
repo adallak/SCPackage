@@ -1,6 +1,3 @@
-source("SC_cppintegrates.R")
-#source("band_diag_HP.R")
-
 sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lambda2"), stand = FALSE,
                  lambda2 = 0, lambda1 = 0, n_lambda = 60, max_iter=50, pen.type=c("HP","fused","l1trend"), band=NULL, ABSTOL = 1e-3 )
 {
