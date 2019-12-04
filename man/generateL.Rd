@@ -12,7 +12,7 @@ generateL(p, band = NULL, scaled = FALSE, case = c("a", "b", "c",
 
 \item{band}{Number of subdiagonals}
 
-\item{scaled}{If TRUE the diagonals of lower triangular matrix \code{L} are equal 0, otherwise $\log((1:p)/10+2)$}
+\item{scaled}{If TRUE the diagonals of lower triangular matrix \code{L} are equal 0, otherwise \eqn{log((1:p)/10+2)}}
 
 \item{case}{admits for possible case a,b,c, and d discribed in Dallakyan and Pourahmadi(2019)}
 
