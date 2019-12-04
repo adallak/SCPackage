@@ -159,7 +159,7 @@ generateL<-function(p,band=NULL,scaled=FALSE,case=c("a","b","c","d"),seed=25,...
      if(case=="d")
     {
       size= p-i+1
-      L[ii == i]=genmarkov(size,seed=seed+i,...)$y/scale#diag(T[-(1),-(p)])[1:(p-i)]
+      L[ii == i]=genmarkov(size,seed=seed+i,...)$y#diag(T[-(1),-(p)])[1:(p-i)]
     }
      if(case=="c")
      {
