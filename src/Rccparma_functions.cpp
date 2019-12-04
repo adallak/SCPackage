@@ -355,7 +355,7 @@ arma::vec hp_coef(arma::mat Bii, arma::mat D,arma::vec y, double lambda1,double 
 
 
 // [[Rcpp::export]]
-arma::vec hp_update(arma::vec &x, arma::mat S, const double lambda1, const double lambda2, int band, List A){
+arma::vec hp_update(arma::vec x, arma::mat S, const double lambda1, const double lambda2, int band, List A){
   int p = S.n_rows;
   arma::mat Bii;
   arma::vec diag;
@@ -376,7 +376,7 @@ arma::vec hp_update(arma::vec &x, arma::mat S, const double lambda1, const doubl
       int D = 1;
       //     ind.print();
       x.elem(ind - 1)= soft_threshold(y, lambda1)/(2 * Bii + 2 * lambda2 * std::pow(D, 2));
-    }else if(i == (p - 1)){
+    }else if (i > (p - 1) & i != p){
       arma::uvec ind = A[i - 1];
       arma::mat D = getd1d(ind.n_elem);
       x.elem(ind - 1) = hp_coef(Bii, D, y, lambda1, lambda2);
@@ -399,7 +399,7 @@ arma::vec hp_update(arma::vec &x, arma::mat S, const double lambda1, const doubl
 }
 
 // [[Rcpp::export]]
-Rcpp::List iter_hp(arma::vec &x,arma::mat S,const double lambda1, const double lambda2,int band, List A,const double max_iter,double  ABSTOL   ){
+Rcpp::List iter_hp(arma::vec x,arma::mat S,const double lambda1, const double lambda2,int band, List A,const double max_iter,double  ABSTOL   ){
   //  double  ABSTOL   = 1e-3;
   // double  RELTOL   = 1e-4;
   arma::vec    history(max_iter);
