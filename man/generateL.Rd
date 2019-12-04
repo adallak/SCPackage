@@ -26,6 +26,9 @@ Returns Standard Cholesky factor \code{L} and modified Cholesky Factor \code{T}.
 \description{
 Generate a model with structure described below.
 }
+\details{
+By default diagonal elements of \code{L} is of the form \eqn{log((1:p)/10+2}.
+}
 \examples{
 generateL(p = 10, band = 4, case = "c")
 

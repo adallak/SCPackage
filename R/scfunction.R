@@ -1,5 +1,8 @@
 
-#' Title
+#' Computes smoothed estimate for a fixed tuning parameter with different penalty options.
+#'
+#' Solves the optimization problem in Dallakyan and Pourahmadi (2019) using
+#' block-coordinate algorithm.
 #'
 #' @param S        Sample Covariance Matrix
 #' @param lambda1  lambda value to control the sparsity
@@ -11,6 +14,10 @@
 #'
 #' @return Returns the estimated smoothed Cholesky factor \code{L}
 #' @export 
+#' 
+#' smoothchol <-
+#' function(S, lambda1 = 0, lambda2 , max_iter = 50, init.x = NULL,
+#' band = NULL, ABSTOL = 1e-3)
 #'
 #' @examples 
 #' set.seed(12)
@@ -24,6 +31,9 @@
 #' L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "fused")$L
 #' L_trend = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "l1trend")$L
 #' L_HP = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "HP")$L
+#' 
+#' #' @seealso \code{\link{smoothcholCV}}
+#' 
 smoothchol<-function(S, lambda1 = 0, lambda2, max_iter = 70, init.x = NULL, type= c("fused", "l1trend", "HP"), 
                      band=NULL , ABSTOL   = 1e-3 )
 {

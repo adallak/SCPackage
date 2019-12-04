@@ -58,7 +58,7 @@ sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lamb
 #' }
 #' 
 #' @export
-#'smoothcholCV <-
+#' smoothcholCV <-
 #' function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lambda2_seq = NULL, max_iter = 50
 #' , band = NULL, n_lambda = 60, pen.type=c("HP","fused","l1trend"), 
 #' ABSTOL   = 1e-3, stand = FALSE )
@@ -73,6 +73,7 @@ sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lamb
 #' L_cv = smoothcholCV(X, both.lambda = FALSE, n_lambda = 30, pen.type = "fused")
 #' 
 #' @seealso \code{\link{smoothchol}}
+#' 
 smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lambda2_seq = NULL, max_iter = 50
                          , band = NULL, n_lambda = 60, pen.type=c("HP","fused","l1trend"), 
                          ABSTOL   = 1e-3, stand = FALSE )

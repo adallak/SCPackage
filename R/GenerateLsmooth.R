@@ -106,17 +106,9 @@ piecewiseAR<-function(p,a=-0.9,b=0.9,seed=25)
 
 #' Generate a model with specified structure
 #'
-#'Generate a model with structure described below.
+#' Generate a model with structure described below.
 #'
-#'
-#'By default diagonal elements of \code{L} is of the form \eqn{log((1:p)/10+2}.
-#' The cases for generating subdiagonal of matrix \code{L} are following:
-#'\itemize
-#'\item{Case a:} {Stationary autoregressive model}
-#'\item{Case b: } {Piecewise stationary process.}
-#'\item{Case c:}  {Time-varying autoregressive process}
-#'\item{Case d:}  {Each subdiagonal is a simple Markov process}
-#'}
+#' By default diagonal elements of \code{L} is of the form \eqn{log((1:p)/10+2}.
 #'
 #' @param p    the dimension of \code{L}
 #' @param band Number of subdiagonals

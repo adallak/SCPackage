@@ -2,7 +2,7 @@
 % Please edit documentation in R/scfunction.R
 \name{smoothchol}
 \alias{smoothchol}
-\title{Title}
+\title{Computes smoothed estimate for a fixed tuning parameter with different penalty options.}
 \usage{
 smoothchol(S, lambda1 = 0, lambda2, max_iter = 70, init.x = NULL,
   type = c("fused", "l1trend", "HP"), band = NULL, ABSTOL = 0.001)
@@ -26,7 +26,8 @@ smoothchol(S, lambda1 = 0, lambda2, max_iter = 70, init.x = NULL,
 Returns the estimated smoothed Cholesky factor \code{L}
 }
 \description{
-Title
+Solves the optimization problem in Dallakyan and Pourahmadi (2019) using
+block-coordinate algorithm.
 }
 \examples{
 set.seed(12)
@@ -40,4 +41,7 @@ S <- crossprod(scale(X, center = TRUE, scale = FALSE)) / n
 L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "fused")$L
 L_trend = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "l1trend")$L
 L_HP = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "HP")$L
+
+#' @seealso \\code{\\link{smoothcholCV}}
+
 }
