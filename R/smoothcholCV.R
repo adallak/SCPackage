@@ -31,8 +31,41 @@ sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lamb
 }
 
 
+#' Title
+#'
+#' @param k  Folds used in cross-validation. The default is $k = 5$
+#' @param X   A n-by-p sample matrix, each row is an observation of th p-dim random vector.
+#' @param both.lambda Logical. If TRUE the cross-validation implemented for both lambdas.
+#' @param lambda1_seq A vector of non-negative tuning parameters for lambda1 to control sparsity.
+#' @param lambda2_seq A vector of non-negative tuning parameters for lambda1 to control smoothness
+#' @param max_iter    Maximum number of iterations
+#' @param band        Positive number of subdiagonal to be estimated. If not provided, the algorithm iterates over all subdiagonals.
+#' @param n_lambda    If lambda1_seq and lambda2_seq is not provided, create a vector of lambdas with length n_lambda. Default is 60.
+#' @param pen.type    Selects penalty for smoothness. 
+#' @param ABSTOL      The tolerence for convergence
+#' @param stand       Logical, if TRUE the data will be standardized.
+#'
+#' @return
+#' A list object containind
+#' *lambda1_min:* Selected value of lambda1 based on cross validation.
+#' *lambda2_min:* Selected value of lambda1 based on cross validation.
+#' *L_fit:* Estimate of L corresponding to the best fit.
+#' *lambda1_seq:* lambda1 grid used in cross validation.
+#' *lambda2_seq:* lambda2 grid used in cross validation.
+#' @export
+#'
+#' @examples
+#' set.seed(11)
+#' require(varband)
+#' n = 100
+#' p = 50
+#' L_true = generateL(p = p, case = "c")$L
+#' X = sample_gen(L = L_true, n = n)
+#' L_cv = smoothcholCV(X, both.lambda = FALSE, n_lambda = 30, pen.type = "fused")
+#' 
+#' 
 smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lambda2_seq = NULL, max_iter = 50
-                         , init.x = NULL, band = NULL, n_lambda = 60, pen.type=c("HP","fused","l1trend"), 
+                         , band = NULL, n_lambda = 60, pen.type=c("HP","fused","l1trend"), 
                          ABSTOL   = 1e-3, stand = FALSE )
 {
   n = dim(X)[1]
@@ -40,14 +73,8 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
   penalty <- match.arg(pen.type)
   mat <- matGenerate(p)
   A <- mat$A
-  if(is.null(init.x))
-  {
-    init.x <- matrix(0, p *(p+1) / 2, 1);
-    init.x[A[[1]]] = 1 / sqrt(diag(S))
-  }else{
-    init.x <- init.x
-  }
-  
+  init.x <- matrix(0, p *(p+1) / 2, 1);
+  init.x[A[[1]]] = 1 / sqrt(diag(S))
   if (!is.null(lambda2_seq)){
     lambda2_seq = sort(lambda2_seq[lambda2_seq >= 0], decreasing = TRUE)
     if (length(lambda2_seq) == 0)
@@ -149,7 +176,7 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
     lambda1_min = lambda1_seq[which.min(cvm_lambda1)][1] 
   }
   sc_cv_fit = smoothchol(S, lambda1 = lambda1_min, lambda2 = lambda2_min, max_iter=max_iter, init.x = init.x, band=band, type=penalty, ABSTOL = ABSTOL)
-  return(list(lambda1_min = lambda1_min, lambda2_min = lambda2_min, L_fit = sc_cv_fit$L, history = sc_cv_fit$history, cvm = cvm, lambda2_seq = lambda2_seq))
+  return(list(lambda1_min = lambda1_min, lambda2_min = lambda2_min, L_fit = sc_cv_fit$L, history = sc_cv_fit$history, cvm = cvm, lambda1_seq = lambda1_seq, lambda2_seq = lambda2_seq))
 }    
 
 ########################################################

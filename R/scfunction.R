@@ -2,31 +2,28 @@
 #' Title
 #'
 #' @param S        Sample Covariance Matrix
-#' @param lambda1  Threshold value for sparse SC
-#' @param lambda2  Threshold value to control smoothness
+#' @param lambda1  lambda value to control the sparsity
+#' @param lambda2  lambda value to control smoothness
 #' @param max_iter Number of maximum iteration
-#' @param init.x   initial value for vectorized Cholesky factor L. The default is diagonal matrix, with diagonal values corresponding square root of diag(S). 
-#' @param type     type of the smoothing penalty
-#' @param band     if specified, algorithm forces the rest of entries zero and iterates only over specifed subdiagonals.
+#' @param init.x   initial value for vectorized Cholesky factor L.
+#' @param band     Positive number to select the band. If specified, algorithm forces the entries outside of band equal to zero and iterates only over specifed subdiagonals inside the band.
 #' @param ABSTOL   Tolerance for algorithm convergence.
 #'
-#' @return The smoothed Cholesky factor \code{L}
+#' @return Returns the estimated smoothed Cholesky factor \code{L}
 #' @export 
 #'
 #' @examples 
 #' set.seed(12)
 #' p <- 50
 #' band <- 5
-#' L_true <- generateL(p = p, band = band)
+#' L_true <- generateL(p = p, band = band)$L
 #' library(varband)
-#' n = 100
-#' random sample
-#' X <- sample_gen(L = true, n = n)
+#' X <- sample_gen(L = L_true, n = n)
 #' sample covariance matrix
-#' L_fused = sc(S, lambda1 = 0, lambda2 = 0.2, type = "fused")
 #' S <- crossprod(scale(X, center = TRUE, scale = FALSE)) / n
-#' L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "fused")
-
+#' L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "fused")$L
+#' L_trend = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "l1trend")$L
+#' L_HP = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "HP")$L
 smoothchol<-function(S, lambda1 = 0, lambda2, max_iter = 70, init.x = NULL, type= c("fused", "l1trend", "HP"), 
                      band=NULL , ABSTOL   = 1e-3 )
 {
