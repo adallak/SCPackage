@@ -285,7 +285,7 @@ arma::vec trend_update(arma::vec x, arma::mat S, const double lambda1, const dou
       temp = x.elem(ind - 1);
       weight = 1 / (2 * Bii);
       x.elem(ind-1) = weighted_soft_threshold(temp, weight, lambda1);
-    }else if(i >= (p-2) && i !=p ){
+    }else if((i >= (p-2)) && (i !=p)){
       arma::uvec ind = A[i - 1];
       arma::vec temp_y = (-1) * sqrt_Bii_inv % offsubsum(A, x, i, S);
       std::vector<double> y_i = arma::conv_to< std::vector<double>  >::from(temp_y);// wrap(temp_y);
@@ -376,7 +376,7 @@ arma::vec hp_update(arma::vec x, arma::mat S, const double lambda1, const double
       int D = 1;
       //     ind.print();
       x.elem(ind - 1)= soft_threshold(y, lambda1)/(2 * Bii + 2 * lambda2 * std::pow(D, 2));
-    }else if (i > (p - 1) & i != p){
+    }else if ((i > (p - 1)) && (i != p)){
       arma::uvec ind = A[i - 1];
       arma::mat D = getd1d(ind.n_elem);
       x.elem(ind - 1) = hp_coef(Bii, D, y, lambda1, lambda2);
