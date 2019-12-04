@@ -2,7 +2,7 @@
 % Please edit documentation in R/GenerateLsmooth.R
 \name{generateL}
 \alias{generateL}
-\title{Title}
+\title{Generate a model with specified structure}
 \usage{
 generateL(p, band = NULL, scaled = FALSE, case = c("a", "b", "c",
   "d"), seed = 25, ...)
@@ -24,8 +24,9 @@ generateL(p, band = NULL, scaled = FALSE, case = c("a", "b", "c",
 Returns Standard Cholesky factor \code{L} and modified Cholesky Factor \code{T}.
 }
 \description{
-Title
+Generate a model with structure described below.
 }
 \examples{
 generateL(p = 10, band = 4, case = "c")
+
 }

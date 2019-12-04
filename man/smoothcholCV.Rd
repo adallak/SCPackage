@@ -2,7 +2,7 @@
 % Please edit documentation in R/smoothcholCV.R
 \name{smoothcholCV}
 \alias{smoothcholCV}
-\title{Title}
+\title{Performs kfolds-cross validation}
 \usage{
 smoothcholCV(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL,
   lambda2_seq = NULL, max_iter = 50, band = NULL, n_lambda = 60,
@@ -33,16 +33,17 @@ smoothcholCV(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL,
 \item{stand}{Logical, if TRUE the data will be standardized.}
 }
 \value{
-A list object containind
-
-*lambda1_min:* Selected value of lambda1 based on cross validation.
-*lambda2_min:* Selected value of lambda1 based on cross validation.
-*L_fit:* Estimate of L corresponding to the best fit.
-*lambda1_seq:* lambda1 grid used in cross validation.
-*lambda2_seq:* lambda2 grid used in cross validation.
+A list object containing
+\itemize{
+ \item{lambda1_min: }{Selected value of lambda1 based on cross validation.}
+ \item{lambda2_min: }{Selected value of lambda1 based on cross validation.}
+ \item{L_fit: }{Estimate of L corresponding to the best fit.}
+ \item{lambda1_seq: }{lambda1 grid used in cross validation.}
+ \item{lambda2_seq: }{lambda2 grid used in cross validation.}
+}
 }
 \description{
-Title
+Selects tuning parameters by cross validation according to the likelihood on testing data.
 }
 \examples{
 set.seed(11)
@@ -53,5 +54,7 @@ L_true = generateL(p = p, case = "c")$L
 X = sample_gen(L = L_true, n = n)
 L_cv = smoothcholCV(X, both.lambda = FALSE, n_lambda = 30, pen.type = "fused")
 
-
+}
+\seealso{
+\code{\link{smoothchol}}
 }
