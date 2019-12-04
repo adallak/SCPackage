@@ -212,12 +212,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // hp_update
-arma::vec hp_update(arma::vec& x, arma::mat S, const double lambda1, const double lambda2, int band, List A);
+arma::vec hp_update(arma::vec x, arma::mat S, const double lambda1, const double lambda2, int band, List A);
 RcppExport SEXP _SC_hp_update(SEXP xSEXP, SEXP SSEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP bandSEXP, SEXP ASEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type S(SSEXP);
     Rcpp::traits::input_parameter< const double >::type lambda1(lambda1SEXP);
     Rcpp::traits::input_parameter< const double >::type lambda2(lambda2SEXP);
@@ -228,12 +228,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // iter_hp
-Rcpp::List iter_hp(arma::vec& x, arma::mat S, const double lambda1, const double lambda2, int band, List A, const double max_iter, double ABSTOL);
+Rcpp::List iter_hp(arma::vec x, arma::mat S, const double lambda1, const double lambda2, int band, List A, const double max_iter, double ABSTOL);
 RcppExport SEXP _SC_iter_hp(SEXP xSEXP, SEXP SSEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP bandSEXP, SEXP ASEXP, SEXP max_iterSEXP, SEXP ABSTOLSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type S(SSEXP);
     Rcpp::traits::input_parameter< const double >::type lambda1(lambda1SEXP);
     Rcpp::traits::input_parameter< const double >::type lambda2(lambda2SEXP);

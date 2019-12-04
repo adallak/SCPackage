@@ -8,20 +8,20 @@ generateL(p, band = NULL, scaled = FALSE, case = c("a", "b", "c",
   "d"), seed = 25, ...)
 }
 \arguments{
-\item{p}{Number of observations}
+\item{p}{the dimension of \code{L}}
 
-\item{band}{Number of band}
+\item{band}{Number of subdiagonals}
 
-\item{scaled}{If TRUE the scaled \code{L} is returned}
+\item{scaled}{If TRUE the diagonals of lower triangular matrix \code{L} are equal 0, otherwise $\log((1:p)/10+2)$}
 
-\item{case}{case as in Dallakyan and Pourahmadi 2019 paper.}
+\item{case}{admits for possible case a,b,c, and d discribed in Dallakyan and Pourahmadi(2019)}
 
 \item{seed}{}
 
 \item{...}{}
 }
 \value{
-Returns Standard Cholesky factor \code{L} and modified Cholesky Factor \code{T}
+Returns Standard Cholesky factor \code{L} and modified Cholesky Factor \code{T}.
 }
 \description{
 Title

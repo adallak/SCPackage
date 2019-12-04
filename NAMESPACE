@@ -2,10 +2,9 @@
 
 export(generateL)
 export(smoothchol)
+export(smoothcholCV)
 import(stats)
 importFrom(Rcpp,evalCpp)
 importFrom(flsa,flsa)
-importFrom(genlasso,getD1d)
-importFrom(genlasso,getDtf)
 importFrom(l1tf,l1tf)
 useDynLib(SC)

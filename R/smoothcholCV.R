@@ -31,7 +31,9 @@ sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lamb
 }
 
 
-#' Title
+#' Performs kfolds-cross validation
+#'
+#'Selects tuning parameters by cross validation according to the likelihood on testing data.
 #'
 #' @param k  Folds used in cross-validation. The default is $k = 5$
 #' @param X   A n-by-p sample matrix, each row is an observation of th p-dim random vector.
@@ -46,13 +48,20 @@ sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lamb
 #' @param stand       Logical, if TRUE the data will be standardized.
 #'
 #' @return
-#' A list object containind
-#' *lambda1_min:* Selected value of lambda1 based on cross validation.
-#' *lambda2_min:* Selected value of lambda1 based on cross validation.
-#' *L_fit:* Estimate of L corresponding to the best fit.
-#' *lambda1_seq:* lambda1 grid used in cross validation.
-#' *lambda2_seq:* lambda2 grid used in cross validation.
+#' A list object containing
+#' \itemize{
+#'  \item{"lambda1_min"}{Selected value of lambda1 based on cross validation.}
+#'  \item{"lambda2_min"}{Selected value of lambda1 based on cross validation.}
+#'  \item{"L_fit"}{Estimate of L corresponding to the best fit.}
+#'  \item{"lambda1_seq"}{lambda1 grid used in cross validation.}
+#'  \item{"lambda2_seq"}{lambda2 grid used in cross validation.}
+#' }
+#' 
 #' @export
+#'smoothcholCV <-
+#' function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lambda2_seq = NULL, max_iter = 50
+#' , band = NULL, n_lambda = 60, pen.type=c("HP","fused","l1trend"), 
+#' ABSTOL   = 1e-3, stand = FALSE )
 #'
 #' @examples
 #' set.seed(11)
@@ -68,6 +77,10 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
                          , band = NULL, n_lambda = 60, pen.type=c("HP","fused","l1trend"), 
                          ABSTOL   = 1e-3, stand = FALSE )
 {
+  if (k <= 0)
+  {
+    stop("number of folds should be positive")
+  }
   n = dim(X)[1]
   p = dim(X)[2]
   penalty <- match.arg(pen.type)

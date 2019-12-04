@@ -5,42 +5,53 @@
 \title{Title}
 \usage{
 smoothcholCV(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL,
-  lambda2_seq = NULL, max_iter = 50, init.x = NULL, band = NULL,
-  n_lambda = 60, pen.type = c("HP", "fused", "l1trend"),
-  ABSTOL = 0.001, stand = FALSE)
+  lambda2_seq = NULL, max_iter = 50, band = NULL, n_lambda = 60,
+  pen.type = c("HP", "fused", "l1trend"), ABSTOL = 0.001,
+  stand = FALSE)
 }
 \arguments{
-\item{k}{Number of folds}
+\item{k}{Folds used in cross-validation. The default is $k = 5$}
 
-\item{X}{Data}
+\item{X}{A n-by-p sample matrix, each row is an observation of th p-dim random vector.}
 
-\item{both.lambda}{Logical type variable,If both.lambda is true perform crossvalidation, first for lambda2, keeping lambda1 constant and then for lambda1 kepping lambda2 value constant at the value found in the previous step.}
+\item{both.lambda}{Logical. If TRUE the cross-validation implemented for both lambdas.}
 
-\item{lambda1_seq}{Sequence for lambda1 values.}
+\item{lambda1_seq}{A vector of non-negative tuning parameters for lambda1 to control sparsity.}
 
-\item{lambda2_seq}{Sequence for lambda2 values.}
+\item{lambda2_seq}{A vector of non-negative tuning parameters for lambda1 to control smoothness}
 
-\item{max_iter}{Maximum number of iteration.}
+\item{max_iter}{Maximum number of iterations}
 
-\item{init.x}{Initial value for vectorized version of matrix L.}
+\item{band}{Positive number of subdiagonal to be estimated. If not provided, the algorithm iterates over all subdiagonals.}
 
-\item{band}{Number of band to estimate, if NULL estimated entire lower triangular matrix L.}
+\item{n_lambda}{If lambda1_seq and lambda2_seq is not provided, create a vector of lambdas with length n_lambda. Default is 60.}
 
-\item{n_lambda}{If lambda1_seq(lambda2_seq) is NULL, creates sequence for lambdas with given length n_lambda.}
+\item{pen.type}{Selects penalty for smoothness.}
 
-\item{pen.type}{Type of penalty.}
+\item{ABSTOL}{The tolerence for convergence}
 
-\item{ABSTOL}{Tolerence for the algorithm convergence.}
+\item{stand}{Logical, if TRUE the data will be standardized.}
+}
+\value{
+A list object containind
 
-\item{stand}{If TRUE, data transformes into standardard version.}
+*lambda1_min:* Selected value of lambda1 based on cross validation.
+*lambda2_min:* Selected value of lambda1 based on cross validation.
+*L_fit:* Estimate of L corresponding to the best fit.
+*lambda1_seq:* lambda1 grid used in cross validation.
+*lambda2_seq:* lambda2 grid used in cross validation.
 }
 \description{
 Title
 }
 \examples{
- 
-  X = matrix(rnorm(500), nrow = 50, ncol = 10) 
-  L.cv = smoothcholCV( k = 5, lambda2_seq = NULL, n_lambda = 60, pen.type = c("fused"))$L_fit
+set.seed(11)
+require(varband)
+n = 100
+p = 50
+L_true = generateL(p = p, case = "c")$L
+X = sample_gen(L = L_true, n = n)
+L_cv = smoothcholCV(X, both.lambda = FALSE, n_lambda = 30, pen.type = "fused")
 
 
 }
