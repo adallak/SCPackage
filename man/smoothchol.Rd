@@ -42,6 +42,7 @@ L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "fused")$L
 L_trend = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "l1trend")$L
 L_HP = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "HP")$L
 
-#' @seealso \\code{\\link{smoothcholCV}}
-
+}
+\seealso{
+\code{\link{smoothcholCV}}
 }
