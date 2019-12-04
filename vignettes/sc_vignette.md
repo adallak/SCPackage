@@ -77,5 +77,16 @@ The `sc`function takes the following parameters:
 - `ABSTOL` - Tolerance for algorithm convergence.
 
 
+```r
+# use identity matrix as initial estimate
+#L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.2,band = band, type = "fused")
+```
+We can plot the sparsity patterns of the true model and the sample covariance matrix by using `matimage` function from the package `varband`. 
 
 
+```r
+# par(mfrow = c(1, 3))
+# matimage(L_true, main = "True L")
+# matimage(S, main = "Sample covariance matrix")
+# matimage(L_fused$L, main = "Smmothed Cholesky")
+```
