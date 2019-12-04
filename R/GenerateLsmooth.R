@@ -104,7 +104,19 @@ piecewiseAR<-function(p,a=-0.9,b=0.9,seed=25)
 #################################################################################
 #################################################################################
 
-#' Title
+#' Generate a model with specified structure
+#'
+#'Generate a model with structure described below.
+#'
+#'
+#'By default diagonal elements of \code{L} is of the form \eqn{log((1:p)/10+2}.
+#' The cases for generating subdiagonal of matrix \code{L} are following:
+#'\itemize
+#'\item{Case a:} {Stationary autoregressive model}
+#'\item{Case b: } {Piecewise stationary process.}
+#'\item{Case c:}  {Time-varying autoregressive process}
+#'\item{Case d:}  {Each subdiagonal is a simple Markov process}
+#'}
 #'
 #' @param p    the dimension of \code{L}
 #' @param band Number of subdiagonals
@@ -113,11 +125,15 @@ piecewiseAR<-function(p,a=-0.9,b=0.9,seed=25)
 #' @param seed   
 #' @param ... 
 #'
+#'
 #' @return Returns Standard Cholesky factor \code{L} and modified Cholesky Factor \code{T}.
 #' @export
+#'generateL <- 
+#'function(p = p, band = NULL, case = c("a","b","c","d"))
 #'
 #' @examples
 #' generateL(p = 10, band = 4, case = "c")
+#' 
 generateL<-function(p,band=NULL,scaled=FALSE,case=c("a","b","c","d"),seed=25,...)
 {
   p=p
