@@ -27,10 +27,10 @@ library(SC)
 set.seed(12)
 p <- 50
 band <- 5
-L_true <- generateL(p = p, band = band)
+L_true <- generateL(p = p, band = band)$L
 ```
 
-Having true Cholesky factor, we can then generate a data matrix $X \in \mathbb{R}^{n \times p}$ with each row a random sample drawn independently from a Gaussian distribution of mean zero and covariance $\Sigma = (L^T L)^{-1}$. We use function `sample_gen` from the package `varband` to generate the data. 
+Having true Cholesky factor, we can then generate a (n x p)data matrix X with each row a random sample drawn independently from a Gaussian distribution of mean zero and covariance $\Sigma = (L^T L)^{-1}$. We use function `sample_gen` from the package `varband` to generate the data. 
 
 ```s
 library(varband)
@@ -56,5 +56,7 @@ The `sc`function takes the following parameters:
 
 ```s
 # use identity matrix as initial estimate
-L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "fused")
+L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "fused")$L
+L_l1trend = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "l1trend")$L
+L_HP = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "HP")$L
 ```
