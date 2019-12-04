@@ -6,10 +6,10 @@ This document serves as an introduction of using the package.
 
 The main function is `smoothchol`, which takes a sample covariance matrix of the observations and returns the estimate of $L$. 
 
-The `SC` is a package that estimates a Cholesky factor of inverse covariance matrix via penalized maximum likelihood under local stationary assumption. In particular, given a data matrix $X \in \mathbb{R}^{n \times p}$, with each row an observation of a $p$ dimensional random vector $X \sim N(0, \Omega^{-1} = (L^T L)^{-1})$, this package implements a penalized likelihood-based approach of estimating $L$ by smoothing its subdiagonals.
+The `SC` is a package that estimates a Cholesky factor of inverse covariance matrix via penalized maximum likelihood under local stationary assumption. In particular, given a n-by-p data matrix X, with each row an observation of a p dimensional random vector $X \sim N(0, \Omega^{-1} = (L^T L)^{-1})$, this package implements a penalized likelihood-based approach of estimating L by smoothing its subdiagonals.
 This document serves as an introduction of using the package.
 
-The main function is `smoothchol`, which takes a sample covariance matrix of the observations and returns the estimate of $L$. 
+The main function is `smoothchol`, which takes a sample covariance matrix of the observations and returns the estimate of L. 
 
 ## Installation
 
@@ -27,9 +27,11 @@ library(SC)
 set.seed(12)
 p <- 50
 L_true <- generateL(p = p, case = "b")$L
+band <- 5
+L_true <- generateL(p = p, band = band)$L
 ```
 
-Having true Cholesky factor, we can then generate a data matrix $X \in \mathbb{R}^{n \times p}$ with each row a random sample drawn independently from a Gaussian distribution of mean zero and covariance $\Sigma = (L^T L)^{-1}$. We use function `sample_gen` from the package `varband` to generate the data. 
+Having true Cholesky factor, we can then generate a (n x p)data matrix X with each row a random sample drawn independently from a Gaussian distribution of mean zero and covariance $\Sigma = (L^T L)^{-1}$. We use function `sample_gen` from the package `varband` to generate the data. 
 
 ```s
 library(varband)
@@ -56,6 +58,6 @@ The `sc`function takes the following parameters:
 ```s
 # use identity matrix as initial estimate
 L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "fused")$L
-L_trend = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "l1trend")$L
+L_l1trend = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "l1trend")$L
 L_HP = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "HP")$L
 ```

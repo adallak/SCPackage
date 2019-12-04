@@ -1,6 +1,7 @@
 Package: SC
 Type: Package
-Title: Learning Smooth Cholesky Factors of Large Covariance Matrices
+Title: Learning Smoothness of Cholesky Factors of Large Covariance Matrices with different penalty options
+Version: 1.0
 Date: 2019-11-17 
 Author: Aramayis Dallakyan
 Maintainer: Aramayis Dallakyan <dallakyan1988@tamu.edu>
