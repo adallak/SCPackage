@@ -120,7 +120,7 @@ piecewiseAR<-function(p,a=-0.9,b=0.9,seed=25)
 #'
 #' @param p    the dimension of \code{L}
 #' @param band Number of subdiagonals
-#' @param scaled If TRUE the diagonals of lower triangular matrix \code{L} are equal 0, otherwise $\log((1:p)/10+2)$
+#' @param scaled If TRUE the diagonals of lower triangular matrix \code{L} are equal 0, otherwise \eqn{log((1:p)/10+2)}
 #' @param case   admits for possible case a,b,c, and d discribed in Dallakyan and Pourahmadi(2019)
 #' @param seed   
 #' @param ... 
