@@ -120,9 +120,7 @@ piecewiseAR<-function(p,a=-0.9,b=0.9,seed=25)
 #'
 #' @return Returns Standard Cholesky factor \code{L} and modified Cholesky Factor \code{T}.
 #' @export
-#'generateL <- 
-#'function(p = p, band = NULL, case = c("a","b","c","d"))
-#'
+#' 
 #' @examples
 #' generateL(p = 10, band = 4, case = "c")
 #' 

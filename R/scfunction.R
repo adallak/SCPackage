@@ -15,10 +15,6 @@
 #' @return Returns the estimated smoothed Cholesky factor \code{L}
 #' @export 
 #' 
-#' smoothchol <-
-#' function(S, lambda1 = 0, lambda2 , max_iter = 50, init.x = NULL,
-#' band = NULL, ABSTOL = 1e-3)
-#'
 #' @examples 
 #' set.seed(12)
 #' p <- 50
