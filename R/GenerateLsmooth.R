@@ -119,6 +119,7 @@ piecewiseAR<-function(p,a=-0.9,b=0.9,seed=25)
 #'
 #'
 #' @return Returns Standard Cholesky factor \code{L} and modified Cholesky Factor \code{T}.
+#' 
 #' @export
 #' 
 #' @examples

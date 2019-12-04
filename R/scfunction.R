@@ -13,6 +13,7 @@
 #' @param ABSTOL   Tolerance for algorithm convergence.
 #'
 #' @return Returns the estimated smoothed Cholesky factor \code{L}
+#' 
 #' @export 
 #' 
 #' @examples 
@@ -28,7 +29,7 @@
 #' L_trend = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "l1trend")$L
 #' L_HP = smoothchol(S, lambda1 = 0, lambda2 = 0.2, type = "HP")$L
 #' 
-#' #' @seealso \code{\link{smoothcholCV}}
+#' @seealso \code{\link{smoothcholCV}}
 #' 
 smoothchol<-function(S, lambda1 = 0, lambda2, max_iter = 70, init.x = NULL, type= c("fused", "l1trend", "HP"), 
                      band=NULL , ABSTOL   = 1e-3 )
