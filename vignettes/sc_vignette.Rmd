@@ -30,7 +30,7 @@ This document serves as an introduction of using the package.
 
 The main function is `smoothchol`, which takes a sample covariance matrix of the observations and returns the estimate of $L$. 
 
-<a id="intro"></a>
+<a id="qs"></a>
 
 ## Quick Start
 
@@ -81,6 +81,8 @@ We can plot the true model and the estimated matrix by using `matimage` function
   matimage(L_true, main = "True L")
   matimage(L_fused$L, main = "Smoothed Cholesky")
 ```
+
+<a id="cv"></a>
 
 ## Using Cross Validation
 
