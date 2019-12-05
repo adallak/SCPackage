@@ -30,7 +30,7 @@ This document serves as an introduction of using the package.
 
 The main function is `smoothchol`, which takes a sample covariance matrix of the observations and returns the estimate of $L$. 
 
-<a id="intro"></a>
+<a id="qs"></a>
 
 ## Quick Start
 
@@ -76,10 +76,77 @@ The `sc`function takes the following parameters:
 - `ABSTOL` - Tolerance for algorithm convergence.
 
 
+```r
+L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.5, band = band + 1, type = "fused")
+```
+
+```
+## SC fails to converge, current value is 0.00305587
+```
+We can plot the true model and the estimated matrix by using `matimage` function from the package `varband`. 
 
 
+```r
+  matimage(L_true, main = "True L")
+```
+
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png)
+
+```r
+  matimage(L_fused$L, main = "Smoothed Cholesky")
+```
+
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-2.png)
+
+<a id="cv"></a>
+
+## Using Cross Validation
+
+In this section we use `smoothcholCV` to select the tuning parameter for the proposed method using cross validation and plot the true and esitmated first subdiagonals.
 
 
+```r
+L_fused_cv = smoothcholCV(k = 5, X, lambda2_seq = NULL, band = band,n_lambda = 40, pen.type = "fused" )
+```
 
+```
+## SC fails to converge, current value is 0.00126301
+```
 
+```r
+L_trend_cv = smoothcholCV(k = 5, X, lambda2_seq = NULL, band = band,n_lambda = 40, pen.type = "l1trend" )
+```
+
+```
+## SC fails to converge, current value is 0.00104278
+## SC fails to converge, current value is 0.00100774
+## SC fails to converge, current value is 0.00103356
+## SC fails to converge, current value is 0.00100254
+## SC fails to converge, current value is 0.00104647
+```
+
+```r
+L_hp_cv = smoothcholCV(k = 5, X, lambda2_seq = NULL, band = band,n_lambda = 40, pen.type = "HP" )
+```
+
+```
+## SC fails to converge, current value is 0.00120893
+## SC fails to converge, current value is 0.00140149
+## SC fails to converge, current value is 0.00129277
+## SC fails to converge, current value is 0.00131759
+## SC fails to converge, current value is 0.00136113
+## SC fails to converge, current value is 0.0012637
+```
+
+```r
+## Extracting first subdiagonal
+true_first = diag(L_true[-1, -p])
+fused_first = diag(L_fused_cv$L_fit[-1, -p])
+trend_first = diag(L_trend_cv$L_fit[-1, -p])
+hp_first = diag(L_hp_cv$L_fit[-1, -p])
+```
+
+Now, to evaluate performance of our method we plot the true first subdiagonal and the estimated subdiagonal for all three estimators.
+
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png)
 
