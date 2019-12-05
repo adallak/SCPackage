@@ -84,7 +84,7 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
   p = dim(X)[2]
   if (isTRUE(stand))
   {
-    x = standardizeX(X)
+    x = standardizeX(X)$Xtilde
     S = crossprod(x) / n
   }else{
     S = var(S)
