@@ -35,7 +35,7 @@ The main function is `smoothchol`, which takes a sample covariance matrix of the
 ## Quick Start
 
 
-```{r setup, eval = F}
+```{r setup, eval = T}
 library(SC)
 ```
 
