@@ -14,9 +14,12 @@ vignette: >
 
 [Introduction](#intro)
 
-[Installation](#install)
+<!-- [Installation](#install) -->
+
 
 [Quick Start](#qs)
+
+[Using Cross Validation](#cv)
 
 <a id="intro"></a>
 
@@ -27,10 +30,7 @@ This document serves as an introduction of using the package.
 
 The main function is `smoothchol`, which takes a sample covariance matrix of the observations and returns the estimate of $L$. 
 
-<a id="install"></a>
-
-
-
+<a id="intro"></a>
 
 ## Quick Start
 
@@ -48,7 +48,7 @@ The package contains function `generateL` for generating true standard and modif
 set.seed(12)
 p <- 50
 band <- 5
-L_true <- generateL(p = p, band = band)$L
+L_true <- generateL(p = p, band = band,case = "c")$L
 ```
 
 Having true Cholesky factor, we can then generate a data matrix $X \in \mathbb{R}^{n \times p}$ with each row a random sample drawn independently from a Gaussian distribution of mean zero and covariance $\Sigma = (L^T L)^{-1}$. We use function `sample_gen` from the package `varband` to generate the data. After centering the dat, the sample covariance is esitmated by $S = \frac{X^tX}{n}$
@@ -57,7 +57,6 @@ Having true Cholesky factor, we can then generate a data matrix $X \in \mathbb{R
 ```r
 library(varband)
 n = 100
-p = 50
 # random sample
 X <- sample_gen(L = L_true, n = n)
 # sample covariance matrix
@@ -77,16 +76,10 @@ The `sc`function takes the following parameters:
 - `ABSTOL` - Tolerance for algorithm convergence.
 
 
-```r
-# use identity matrix as initial estimate
-#L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.2,band = band, type = "fused")
-```
-We can plot the sparsity patterns of the true model and the sample covariance matrix by using `matimage` function from the package `varband`. 
 
 
-```r
-# par(mfrow = c(1, 3))
-# matimage(L_true, main = "True L")
-# matimage(S, main = "Sample covariance matrix")
-# matimage(L_fused$L, main = "Smmothed Cholesky")
-```
+
+
+
+
+
