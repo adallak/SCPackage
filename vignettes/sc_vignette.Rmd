@@ -88,15 +88,21 @@ We can plot the true model and the estimated matrix by using `matimage` function
 
 In this section we use `smoothcholCV` to select the tuning parameter for the proposed method using cross validation and plot the true and esitmated first subdiagonals.
 
-```{r}
-L_fused_cv = smoothcholCV(k = 5, X, lambda2_seq = NULL, band = band,n_lambda = 40, pen.type = "fused" )
-L_trend_cv = smoothcholCV(k = 5, X, lambda2_seq = NULL, band = band,n_lambda = 40, pen.type = "l1trend" )
-L_hp_cv = smoothcholCV(k = 5, X, lambda2_seq = NULL, band = band,n_lambda = 40, pen.type = "HP" )
+```{r, warning= FALSE, message = FALSE}
+lambda2_seq = seq(0.01, 2, length.out = 60)
+L_fused_cv = smoothcholCV(k = 5, X, lambda2_seq = lambda2_seq, band = band, pen.type = "fused", max_iter = 100, stand = TRUE )
+L_trend_cv = smoothcholCV(k = 5, X, lambda2_seq = lambda2_seq, band = band, pen.type = "l1trend", max_iter = 100, stand = TRUE )
+L_hp_cv = smoothcholCV(k = 5, X, lambda2_seq = lambda2_seq, band = band, pen.type = "HP", max_iter = 100, stan = TRUE )
+## Converting L into T as described in Dallakyan and Pourahmadi (2019)
+T_true = - L_true*(1/diag(L_true))
+T_fused = - L_fused_cv$L_fit * (1 / diag(L_fused_cv$L_fit))
+T_trend = - L_trend_cv$L_fit *(1 / diag(L_trend_cv$L_fit))
+T_hp = - L_hp_cv$L_fit *(1/diag(L_fused_cv$L_fit))
 ## Extracting first subdiagonal
-true_first = diag(L_true[-1, -p])
-fused_first = diag(L_fused_cv$L_fit[-1, -p])
-trend_first = diag(L_trend_cv$L_fit[-1, -p])
-hp_first = diag(L_hp_cv$L_fit[-1, -p])
+true_first = diag(T_true[-1, -p])
+fused_first = diag(T_fused[-1, -p])
+trend_first = diag(T_trend[-1, -p])
+hp_first = diag(T_hp[-1, -p])
 
 ```
 
