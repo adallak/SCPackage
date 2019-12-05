@@ -82,6 +82,13 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
   }
   n = dim(X)[1]
   p = dim(X)[2]
+  if (isTRUE(stand))
+  {
+    x = standardizeX(X)
+    S = crossprod(x) / n
+  }else{
+    S = var(S)
+  }
   penalty <- match.arg(pen.type)
   mat <- matGenerate(p)
   A <- mat$A
