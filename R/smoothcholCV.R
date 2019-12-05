@@ -1,22 +1,22 @@
-sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lambda2"), stand = FALSE,
+sc_seq<-function(S, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lambda2"), stand = FALSE,
                  lambda2 = 0, lambda1 = 0, n_lambda = 60, max_iter=50, pen.type=c("HP","fused","l1trend"), band=NULL, ABSTOL = 1e-3 )
 {
-  n <- dim(X)[1]
-  p <- dim(X)[2]
+#  n <- dim(X)[1]
+  p <- dim(S)[2]
   n_lambda = length(lambda_seq)
   penalty <- match.arg(pen.type)
   lambda  =  match.arg(lambda.type)
   ### Standardize the input
-  if (isTRUE(stand))
-  {
-    X = standardizeX(X)$Xtilde
-    S = crossprod(X) / n
-  }else{
-    onevec = matrix(1, n , 1)
-    x = X - tcrossprod(onevec) %*% X / n
-    S = crossprod(x) / n
-  }
-  x_mat = matrix(0, nrow = p * (p+1) / 2, ncol = n_lambda ) 
+  # if (isTRUE(stand))
+  # {
+  #   X = standardizeX(X)$Xtilde
+  #   S = crossprod(X) / n
+  # }else{
+  #   onevec = matrix(1, n , 1)
+  #   x = X - tcrossprod(onevec) %*% X / n
+  #   S = crossprod(x) / n
+  # }
+  # x_mat = matrix(0, nrow = p * (p+1) / 2, ncol = n_lambda ) 
   for (i in 1 : n_lambda){
     if (lambda.type == "lambda2")
     {
@@ -72,7 +72,7 @@ sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lamb
 #' @seealso \code{\link{smoothchol}}
 #' 
 #' 
-smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lambda2_seq = NULL, max_iter = 50
+smoothcholCV <- function(k = 5, S, both.lambda = FALSE, lambda1_seq = NULL, lambda2_seq = NULL, max_iter = 50
                          , band = NULL, n_lambda = 60, pen.type=c("HP","fused","l1trend"), 
                          ABSTOL   = 1e-3, stand = FALSE )
 {
@@ -80,15 +80,18 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
   {
     stop("number of folds should be positive")
   }
-  n = dim(X)[1]
-  p = dim(X)[2]
-  if (isTRUE(stand))
-  {
-    x = standardizeX(X)$Xtilde
-    S = crossprod(x) / n
-  }else{
-    S = var(S)
-  }
+#  n = dim(X)[1]
+  p = dim(S)[2]
+  # if (isTRUE(stand))
+  # {
+  #   x = standardizeX(X)$Xtilde
+  #   S = crossprod(x) / n
+  # }else{
+  #   n = dim(X)[1]
+  #   onevec = matrix(1, n , 1)
+  #   x = X - tcrossprod(onevec) %*% X / n
+  #   Stest = crossprod(x) / n
+  # }
   penalty <- match.arg(pen.type)
   mat <- matGenerate(p)
   A <- mat$A
@@ -121,7 +124,10 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
   for (fold in 1:k){
     index = which(fold_ids == fold)  ## Stores indexes for CV 
     xtrain = X[-index,]        ## train data
+    meanx <- colMeans(xtrain)
+    xtrain = scale(xtrain, center = meanx, scale = FALSE)
     n_train = dim(xtrain)[1]
+    S_train = crossprod(xtrain) / n_train
     #Create testing data xtest and ytest, everything in fold
     xtest = X[index,]          ## test data
     n_test = dim(xtest)[1]
@@ -130,12 +136,12 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
       xtest = standardizeX(xtest)$Xtilde
       Stest = crossprod(xtest) / n_test
     }else{
-      onevec = matrix(1, n_test , 1)
-      x = xtest - tcrossprod(onevec) %*% xtest / n_test
+ #     onevec = matrix(1, n_test , 1)
+      x = scale(xtest, center = meanx, scale = FALSE) # xtest - tcrossprod(onevec)  %*% xtest / n_test
       Stest = crossprod(x) / n_test
     }
     
-    sc_fit = sc_seq(X = xtrain, lambda_seq = lambda2_seq, init.x = init.x, lambda.type = c("lambda2"), n_lambda = n_lambda, max_iter=max_iter,
+    sc_fit = sc_seq(S = S_train, lambda_seq = lambda2_seq, init.x = init.x, lambda.type = c("lambda2"), n_lambda = n_lambda, max_iter=max_iter,
                     pen.type= penalty, band = band, ABSTOL = ABSTOL, stand = stand )$x_mat
     for ( i in 1 : n_lambda)
     {
@@ -168,21 +174,24 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
     for (fold in 1:k){
       index = which(fold_ids == fold)  ## Stores indexes for CV 
       xtrain = X[-index,]        ## train data
+      meanx <- colMeans(xtrain)
+      xtrain = scale(xtrain, center = meanx, scale = FALSE)
       n_train = dim(xtrain)[1]
-      ##Create testing data xtest and ytest, everything in fold
+      S_train = crossprod(xtrain) / n_train
+      #Create testing data xtest and ytest, everything in fold
       xtest = X[index,]          ## test data
       n_test = dim(xtest)[1]
       if (isTRUE(stand))
       {
         xtest = standardizeX(xtest)$Xtilde
-        Stest = crossprod(xtest)/ n_test
+        Stest = crossprod(xtest) / n_test
       }else{
-        onevec = matrix(1, n_test , 1)
-        x = xtest - tcrossprod(onevec) %*% xtest / n_test
+        #     onevec = matrix(1, n_test , 1)
+        x = scale(xtest, center = meanx, scale = FALSE) # xtest - tcrossprod(onevec)  %*% xtest / n_test
         Stest = crossprod(x) / n_test
       }
       
-      sc_fit_lambda1 = sc_seq(X = xtrain, lambda_seq = lambda1_seq, lambda2 = lambda2_min, init.x = init.x, lambda.type = c("lambda1"), n_lambda = n_lambda, max_iter=max_iter,
+      sc_fit_lambda1 = sc_seq(S = S_train, lambda_seq = lambda1_seq, lambda2 = lambda2_min, init.x = init.x, lambda.type = c("lambda1"), n_lambda = n_lambda, max_iter=max_iter,
                               pen.type= penalty, band = band, ABSTOL = ABSTOL, stand = stand )$x_mat
       
       for ( i in 1 : n_lambda1)
