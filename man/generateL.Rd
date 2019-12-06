@@ -4,19 +4,21 @@
 \alias{generateL}
 \title{Generate a model with specified structure}
 \usage{
-generateL(p, band = NULL, scaled = FALSE, case = c("a", "b", "c",
-  "d"), seed = 25, ...)
+generateL(p, band = NULL, stand = FALSE, case = c("a", "b", "c",
+  "d"), seed = 25, scale = 10, ...)
 }
 \arguments{
 \item{p}{the dimension of \code{L}}
 
 \item{band}{Number of subdiagonals}
 
-\item{scaled}{If TRUE the diagonals of lower triangular matrix \code{L} are equal 0, otherwise \eqn{log((1:p)/10+2)}}
+\item{stand}{logical, If TRUE the diagonals of lower triangular matrix \code{L} are equal 0, otherwise \eqn{log((1:p)/10+2)}}
 
 \item{case}{admits for possible case a,b,c, and d discribed in Dallakyan and Pourahmadi(2019)}
 
 \item{seed}{}
+
+\item{scale}{scales the subdiagonal by given constant to avoid large values.}
 
 \item{...}{}
 }
