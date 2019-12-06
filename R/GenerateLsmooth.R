@@ -126,74 +126,69 @@ piecewiseAR<-function(p,a=-0.9,b=0.9,seed=25)
 #' @examples
 #' generateL(p = 10, band = 4, case = "c")
 #' 
-generateL <- function(p, band = NULL, stand = FALSE, case = c("a", "b", "c", "d"),seed = 25, scale = 10, ...)
+generateL<-function(p, band = NULL, scaled = FALSE, case = c("a", "b", "c", "d"), seed = 25, scale = 1,...)
 {
   p = p
- # knots =knots
+  # knots =knots
   if(is.null(band))
   {
     band = p
   }else{
-  band = band
+    band = band
   }
   case = match.arg(case)
   ii <- toeplitz(1 : p)
   ii[upper.tri(ii)] <- 0
   K <- band + 1
-  L <- (ii <= K) &(ii !=0)
+  L <- (ii <= K) & (ii !=0)
   for(i in 2:(band))
   {
-    if (i == p - 1)
+    if (i == p-1)
     {
-      L[p,1] = 0
+      L[p,1] = 0#diag(T[-(1),-(p)])[1]
     }else{
       set.seed(seed)
-     if(case == "d")
-    {
-      size = p - i + 1
-      L[ii == i] = genmarkov(size, seed = seed + i, ...)$y / scale
-    }
-     if(case == "c")
-     {
-       L[ii == i] = (2 * ((1 : (p - i + 1)) / ((p)))^2 - 0.5) / scale 
-     }
-    if(case == "b")
-    {
-      if (i == 2)
+      if(case == "d")
       {
-      L[ii == i] = fused1d(p - i + 1, 0.9, 1.69, 1.32)
-      }else if (i==3)
-      {
-        L[ii == i] = fused1d(p - i + 1, 0, -0.81, -0.81)
-      }else
-      {
-        L[ii == i] = 0
+        size= p - i + 1
+        L[ii == i] = genmarkov(size, seed = seed + i, ...)$y / scale#diag(T[-(1),-(p)])[1:(p-i)]
       }
-    }
-    # if(case=="e")
-    # {
-    #   L[ii == i]=fused1d(knots=3,len=p-i+1,seed=seed)
-    # }
-    if(case == "a")
-    {
-      size = p - i + 1
-      sign <- ((runif(1, 0, 1) > 0.5) - 1/2) * 2
-      l <- sign * runif(1, 0.1, 0.3)
-      L[ii == i]=l
-    } 
+      if(case == "c")
+      {
+        L[ii == i] = (2 * (( 1 : (p - i + 1)) / ((p)))^2 - 0.5) / 5 
+      }
+      if(case == "b")
+      {
+        if (i == 2)
+        {
+          L[ii == i]= fused1d(p - i + 1, 0.9, 1.69, 1.32)
+        }else if (i == 3)
+        {
+          L[ii == i] = fused1d(p - i + 1, 0, -0.81, -0.81)
+        }else
+        {
+          L[ii == i]=0
+        }
+      }
+      if(case == "a")
+      {
+        size= p - i + 1
+        sign <- ((runif(1, 0, 1) > 0.5) - 1/2) * 2
+        l<-sign*runif(1, 0.1, 0.3)
+        L[ii == i] = l
+      } 
     }
   }
   diag(L) <- rep(0, p)
   L <- L - upper.tri(L) * L
   T <- L
   L <- diag(rep(1, p)) - L
-  if(isTRUE(stand))
+  if(isTRUE(scaled))
   {
-  L <- diag(rep(1, p)) %*% L
+    L <- diag(rep(1, p)) %*% L
   }else{
-     L <- diag(1/log( 8 * (1 : p) / 50 + 2)) %*% L ##diag(1/runif(p, 0.5, 2)) %*%L
+    L <- diag(1/log(8*(1:p)/50+2))%*% L ##diag(1/runif(p, 0.5, 2)) %*%L
   }
-  output=list(L = L, T = T)
+  output = list(L = L, T = T)
   return(output)
 }
-
