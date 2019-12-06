@@ -154,7 +154,7 @@ generateL<-function(p, band = NULL, scaled = FALSE, case = c("a", "b", "c", "d")
     }
      if(case == "c")
      {
-       L[ii == i] = (2 * ((1 : (p - i + 1)) / ((p)))^2 - 0.5) 
+       L[ii == i] = (2 * ((1 : (p - i + 1)) / ((p)))^2 - 0.5)/5 
      }
     if(case == "b")
     {
