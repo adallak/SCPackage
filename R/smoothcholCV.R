@@ -155,7 +155,7 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
   se_fit <- apply(cv_tmp, 1, sd) / sqrt(k)
   lambda1_min = lambda1
   lambda2_min = lambda2_seq[which.min(cvm)][1] 
-  lambda2_min_1se <- min(which(cvm < cvm[lambda2_min] + se_fit[lambda2_min]))
+#  lambda2_min_1se <- min(which(cvm < cvm[lambda2_min] + se_fit[lambda2_min]))
   #############Running loop for lambda1
   if (isTRUE(both.lambda))
   {
@@ -206,13 +206,13 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
       }
     }
     cvm_lambda1 = rowMeans(cv_tmp_lambda1)
-    se_fit_lambda1 <- apply(cv_tmp_lambda1, 1, sd) / sqrt(k)
+#    se_fit_lambda1 <- apply(cv_tmp_lambda1, 1, sd) / sqrt(k)
     lambda1_min = lambda1_seq[which.min(cvm_lambda1)][1] 
-    lambda1_min_1se <- min(which(cvm_lambda1 < cvm_lambda1[lambda1_min] + se_fit_lambda1[lambda1_min]))
+ #   lambda1_min_1se <- min(which(cvm_lambda1 < cvm_lambda1[lambda1_min] + se_fit_lambda1[lambda1_min]))
   }
   sc_cv_fit = smoothchol(S, lambda1 = lambda1_min, lambda2 = lambda2_min, max_iter=max_iter, init.x = init.x, band=band, type=penalty, ABSTOL = ABSTOL)
-  sc_cv_1sefit = smoothchol(S, lambda1 = lambda1_min_1se, lambda2 = lambda2_min_1se, max_iter=max_iter, init.x = init.x, band=band, type=penalty, ABSTOL = ABSTOL)
-  return(list(lambda1_min = lambda1_min, lambda2_min = lambda2_min, lambda2_min_1se = lambda2_min_1se, L_fit = sc_cv_fit$L, history = sc_cv_fit$history, cvm = cvm, lambda1_seq = lambda1_seq, lambda2_seq = lambda2_seq))
+#  sc_cv_1sefit = smoothchol(S, lambda1 = lambda1_min_1se, lambda2 = lambda2_min_1se, max_iter=max_iter, init.x = init.x, band=band, type=penalty, ABSTOL = ABSTOL)
+  return(list(lambda1_min = lambda1_min, lambda2_min = lambda2_min, L_fit = sc_cv_fit$L, history = sc_cv_fit$history, cvm = cvm, lambda1_seq = lambda1_seq, lambda2_seq = lambda2_seq))
 }    
 
 ########################################################
