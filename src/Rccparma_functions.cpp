@@ -336,7 +336,7 @@ Rcpp::List iter_trend(arma::vec x,arma::mat S, const double lambda1, const doubl
       Rcpp::Rcout << "SC fails to converge, current value is " << history.elem(iter) << std::endl;
     }
   }
-
+  
   
   return(Rcpp::List::create(Rcpp::Named("history")=history,
                             Rcpp::Named("x")=x));
@@ -419,7 +419,7 @@ Rcpp::List iter_hp(arma::vec x,arma::mat S,const double lambda1, const double la
       Rcpp::Rcout <<"SC fails to converge, current value is " << history.elem(iter) << std::endl;
     }
   }
-
+  
   return(Rcpp::List::create(Rcpp::Named("history") = history,
                             Rcpp::Named("x") = x));
   //     return x;
