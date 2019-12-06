@@ -16,7 +16,7 @@ sc_seq<-function(S, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lamb
   #   x = X - tcrossprod(onevec) %*% X / n
   #   S = crossprod(x) / n
   # }
-   x_mat = matrix(0, nrow = p * (p+1) / 2, ncol = n_lambda ) 
+  x_mat = matrix(0, nrow = p * (p+1) / 2, ncol = n_lambda ) 
   for (i in 1 : n_lambda){
     if (lambda.type == "lambda2")
     {
@@ -125,13 +125,13 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
   cv_tmp = matrix(NA, n_lambda, k) 
   for (fold in 1:k){
     index = which(fold_ids == fold)  ## Stores indexes for CV 
-    xtrain = X[-index,]        ## train data
+    xtrain = X[-index, ]        ## train data
     meanx <- colMeans(xtrain)
     xtrain = scale(xtrain, center = meanx, scale = FALSE)
     n_train = dim(xtrain)[1]
     S_train = crossprod(xtrain) / n_train
     #Create testing data xtest and ytest, everything in fold
-    xtest = X[index,]          ## test data
+    xtest = X[index, ]          ## test data
     n_test = dim(xtest)[1]
     # if (isTRUE(stand))
     # {
@@ -139,7 +139,7 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
     #   Stest = crossprod(xtest) / n_test
     # }else{
  #     onevec = matrix(1, n_test , 1)
-    xtest = scale(xtest, center = meanx, scale = FALSE) # xtest - tcrossprod(onevec)  %*% xtest / n_test
+    xtest = scale(xtest, center = FALSE, scale = FALSE) # xtest - tcrossprod(onevec)  %*% xtest / n_test
     Stest = crossprod(xtest) / n_test
   #  }
     
@@ -192,7 +192,7 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
       #   Stest = crossprod(xtest) / n_test
       # }else{
         #     onevec = matrix(1, n_test , 1)
-        xtest = scale(xtest, center = meanx, scale = FALSE) # xtest - tcrossprod(onevec)  %*% xtest / n_test
+        xtest = scale(xtest, center = FALSE, scale = FALSE) # xtest - tcrossprod(onevec)  %*% xtest / n_test
         Stest = crossprod(xtest) / n_test
 #      }
       
