@@ -203,7 +203,7 @@ arma::vec fused_update(arma::vec x, arma::mat S, const double lambda1, const dou
       arma::uvec ind = A[i-1];
       temp = x.elem(ind - 1);
       weight = 1 / (2 * Bii);
-      x.elem(ind-1) = weighted_soft_threshold(temp, weight, lambda1);
+      x.elem(ind-1) = weighted_soft_threshold(temp, weight, lambda2);
     }else{
       arma::uvec ind = A[i - 1];
       temp_y = (-1) * sqrt_Bii_inv % offsubsum(A, x, i, S);
@@ -220,7 +220,7 @@ arma::vec fused_update(arma::vec x, arma::mat S, const double lambda1, const dou
     }
   }
   arma::uvec ind1 = A[0];
-  x.elem(ind1-1)= diag_update(A,x,S);
+  x.elem(ind1 - 1) = diag_update(A, x, S);  ## Update the diagonal element
   return x;
 }
 // 
@@ -365,8 +365,8 @@ arma::vec hp_update(arma::vec x, arma::mat S, const double lambda1, const double
   int li;
   arma::mat y;
   //  arma::mat z=x;
-  for (int i=2; i<(band+1);i++){
-    arma::vec tm = A[(i-1)];
+  for (int i = 2; i< (band + 1); i++){
+    arma::vec tm = A[(i - 1)];
     li = tm.n_elem;
     diag = S.diag();
     diag = diag.rows(0, (li - 1));
@@ -374,7 +374,7 @@ arma::vec hp_update(arma::vec x, arma::mat S, const double lambda1, const double
     y=(-2 * (offsubsum(A, x, i, S)));
     //   Bi = diagmat(sqrt(Bii.diag()));
     //    sqrt_Bi = diagmat(1/(Bi.diag()));
-    if(i==(p)){
+    if(i == (p)){
       arma::uvec ind = A[i - 1];
       int D = 1;
       //     ind.print();
