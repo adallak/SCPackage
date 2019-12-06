@@ -116,8 +116,8 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
     Stest = crossprod(xtest) / n_test
   #  }
     
-    sc_fit = sc_seq(S = S_train, lambda_seq = lambda2_seq, init.x = init.x, lambda.type = c("lambda2"), n_lambda = n_lambda, max_iter=max_iter,
-                    pen.type= penalty, band = band, ABSTOL = ABSTOL, stand = stand )$x_mat
+    sc_fit = sc_seq(S = S_train, lambda_seq = lambda2_seq, init.x = init.x, lambda.type = c("lambda2"), max_iter=max_iter,
+                    pen.type= penalty, band = band, ABSTOL = ABSTOL)$x_mat
     for ( i in 1 : n_lambda)
     {
       omega = crossprod(Lfromx(sc_fit[, i], p))
