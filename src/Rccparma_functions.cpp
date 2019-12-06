@@ -229,32 +229,27 @@ arma::vec fused_update(arma::vec x, arma::mat S, const double lambda1, const dou
 Rcpp::List iter_fused(arma::vec x,arma::mat S, double lambda1, double lambda2,int band, List A, double max_iter,double  ABSTOL   ){
   //  double  ABSTOL   = 1e-3;
   // double  RELTOL   = 1e-4;
-  arma::vec history(max_iter);
+  arma::vec history; history.zeros(max_iter);
   arma::vec oldL;
   arma::vec x_temp;
   arma::vec vecL;
   //int p = S.n_rows;
-  for (int iter =0; iter<(max_iter); iter++)
-    // while(iter < max_iter && history(iter) > ABSTOL)
+  for (int iter =0; iter < (max_iter); iter++)
   {
     oldL = x;
     x_temp = fused_update(x, S, lambda1, lambda2, band, A);
     x = x_temp;
     vecL = x;
-    history(iter)  = arma::norm((vecL - oldL),"inf");
-    //   Rcpp::Rcout <<history(iter) << std::endl;
+    history.elem(iter)  = arma::norm((vecL - oldL),"inf");
     //  double current_iter = arma::as_scalar(history(iter));
-    if (history(iter) <= ABSTOL){
+    if (history.elem(iter) <= ABSTOL){
       break;
     }
     if(iter == (max_iter - 1))
     {
-      Rcpp::Rcout << "SC fails to converge, current value is " << history(iter) << std::endl;
+      Rcpp::Rcout << "SC fails to converge, current value is " << history.elem(iter) << std::endl;
     }
   }
-  
-
-  
   return(Rcpp::List::create(Rcpp::Named("history")=history,
                             Rcpp::Named("x")=x));
   //     return x;
@@ -319,7 +314,7 @@ arma::vec trend_update(arma::vec x, arma::mat S, const double lambda1, const dou
 Rcpp::List iter_trend(arma::vec x,arma::mat S, const double lambda1, const double lambda2,int band, List A,const double max_iter,double  ABSTOL   ){
   //  double  ABSTOL   = 1e-3;
   // double  RELTOL   = 1e-4;
-  arma::vec history(max_iter);
+  arma::vec history; history.zeros(max_iter);
   arma::vec oldL;
   arma::vec x_temp;
   arma::vec vecL;
@@ -330,15 +325,15 @@ Rcpp::List iter_trend(arma::vec x,arma::mat S, const double lambda1, const doubl
     x_temp = trend_update(x, S, lambda1, lambda2, band, A);
     x = x_temp;
     vecL = x;
-    history(iter)  = arma::norm((vecL - oldL),"inf");
+    history.elem(iter)  = arma::norm((vecL - oldL),"inf");
     //   Rcpp::Rcout <<history(iter) << std::endl;
     //  double current_iter = arma::as_scalar(history(iter));
-    if (history(iter) <= ABSTOL){
+    if (history.elem(iter) <= ABSTOL){
       break;
     }
     if(iter == (max_iter - 1))
     {
-      Rcpp::Rcout << "SC fails to converge, current value is " << history(iter) << std::endl;
+      Rcpp::Rcout << "SC fails to converge, current value is " << history.elem(iter) << std::endl;
     }
   }
 
@@ -405,7 +400,7 @@ arma::vec hp_update(arma::vec x, arma::mat S, const double lambda1, const double
 Rcpp::List iter_hp(arma::vec x,arma::mat S,const double lambda1, const double lambda2,int band, List A,const double max_iter,double  ABSTOL   ){
   //  double  ABSTOL   = 1e-3;
   // double  RELTOL   = 1e-4;
-  arma::vec    history(max_iter);
+  arma::vec history; history.zeros(max_iter);
   //int p = S.n_rows;
   for (int iter =0; iter < (max_iter); iter++)
   {
@@ -413,15 +408,15 @@ Rcpp::List iter_hp(arma::vec x,arma::mat S,const double lambda1, const double la
     arma::vec x_temp = hp_update(x, S, lambda1, lambda2, band, A);
     x = x_temp;
     arma::vec vecL = x;
-    history(iter)  = arma::norm((vecL - oldL),"inf");
+    history.elem(iter)  = arma::norm((vecL - oldL),"inf");
     //   Rcpp::Rcout <<history(iter) << std::endl;
     //  double current_iter = arma::as_scalar(history(iter));
-    if (history(iter) <= ABSTOL){
+    if (history.elem(iter) <= ABSTOL){
       break;
     }
     if(iter == (max_iter - 1))
     {
-      Rcpp::Rcout <<"SC fails to converge, current value is " << history(iter) << std::endl;
+      Rcpp::Rcout <<"SC fails to converge, current value is " << history.elem(iter) << std::endl;
     }
   }
 
