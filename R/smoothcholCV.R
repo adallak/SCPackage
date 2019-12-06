@@ -81,7 +81,7 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
     stop("number of folds should be positive")
   }
   n = dim(X)[1]
-  p = dim(S)[2]
+  p = dim(X)[2]
   
   S<- crossprod(scale(X, center = TRUE, scale = FALSE)) / n
   # if (isTRUE(stand))
@@ -139,8 +139,8 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
     #   Stest = crossprod(xtest) / n_test
     # }else{
  #     onevec = matrix(1, n_test , 1)
-      xtest = scale(xtest, center = meanx, scale = FALSE) # xtest - tcrossprod(onevec)  %*% xtest / n_test
-      Stest = crossprod(xtest) / n_test
+    xtest = scale(xtest, center = meanx, scale = FALSE) # xtest - tcrossprod(onevec)  %*% xtest / n_test
+    Stest = crossprod(xtest) / n_test
   #  }
     
     sc_fit = sc_seq(S = S_train, lambda_seq = lambda2_seq, init.x = init.x, lambda.type = c("lambda2"), n_lambda = n_lambda, max_iter=max_iter,
