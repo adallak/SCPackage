@@ -145,18 +145,18 @@ BEGIN_RCPP
 END_RCPP
 }
 // iter_fused
-Rcpp::List iter_fused(arma::vec x, arma::mat S, double lambda1, double lambda2, int band, List A, double max_iter, double ABSTOL);
+Rcpp::List iter_fused(arma::vec x, arma::mat S, const double lambda1, const double lambda2, int band, List A, const double max_iter, double ABSTOL);
 RcppExport SEXP _SC_iter_fused(SEXP xSEXP, SEXP SSEXP, SEXP lambda1SEXP, SEXP lambda2SEXP, SEXP bandSEXP, SEXP ASEXP, SEXP max_iterSEXP, SEXP ABSTOLSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type S(SSEXP);
-    Rcpp::traits::input_parameter< double >::type lambda1(lambda1SEXP);
-    Rcpp::traits::input_parameter< double >::type lambda2(lambda2SEXP);
+    Rcpp::traits::input_parameter< const double >::type lambda1(lambda1SEXP);
+    Rcpp::traits::input_parameter< const double >::type lambda2(lambda2SEXP);
     Rcpp::traits::input_parameter< int >::type band(bandSEXP);
     Rcpp::traits::input_parameter< List >::type A(ASEXP);
-    Rcpp::traits::input_parameter< double >::type max_iter(max_iterSEXP);
+    Rcpp::traits::input_parameter< const double >::type max_iter(max_iterSEXP);
     Rcpp::traits::input_parameter< double >::type ABSTOL(ABSTOLSEXP);
     rcpp_result_gen = Rcpp::wrap(iter_fused(x, S, lambda1, lambda2, band, A, max_iter, ABSTOL));
     return rcpp_result_gen;
