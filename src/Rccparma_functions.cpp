@@ -220,7 +220,7 @@ arma::vec fused_update(arma::vec x, arma::mat S, const double lambda1, const dou
     }
   }
   arma::uvec ind1 = A[0];
-  x.elem(ind1 - 1) = diag_update(A, x, S);  ## Update the diagonal element
+  x.elem(ind1 - 1) = diag_update(A, x, S);  // Update the diagonal element
   return x;
 }
 // 
