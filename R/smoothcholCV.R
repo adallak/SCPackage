@@ -105,18 +105,18 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
     index = which(fold_ids == fold)  ## Stores indexes for CV 
     xtrain = X[-index, ]        ## train data
     meanx <- colMeans(xtrain)
-    xtrain = scale(xtrain, center = TRUE, scale = FALSE)
+    xtrain = scale(xtrain, center = TRUE, scale = TRUE)
     n_train = dim(xtrain)[1]
     S_train = crossprod(xtrain) / n_train
+    sc_fit = sc_seq(S = S_train, lambda_seq = lambda2_seq, lambda1 = lambda1, init.x = init.x, lambda.type = c("lambda2"), max_iter=max_iter,
+                    pen.type= penalty, band = band, ABSTOL = ABSTOL)$x_mat
+    
     #Create testing data xtest and ytest, everything in fold
     xtest = X[index, ]          ## test data
     n_test = dim(xtest)[1]
-    xtest = scale(xtest, center = TRUE, scale = FALSE) # xtest - tcrossprod(onevec)  %*% xtest / n_test
+    xtest = scale(xtest, center = TRUE, scale = TRUE) # xtest - tcrossprod(onevec)  %*% xtest / n_test
     Stest = crossprod(xtest) / n_test
-  #  }
-    
-    sc_fit = sc_seq(S = S_train, lambda_seq = lambda2_seq, init.x = init.x, lambda.type = c("lambda2"), max_iter=max_iter,
-                    pen.type= penalty, band = band, ABSTOL = ABSTOL)$x_mat
+
     for ( i in 1 : n_lambda)
     {
       omega = crossprod(Lfromx(sc_fit[, i], p))
@@ -141,7 +141,6 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
     }else{
       # If lambda_seq is not supplied, calculate lambda_max (the minimal value of lambda that gives zero solution), and create a sequence of length n_lambda as
       lambda1_seq = exp(seq(log(1), log(0.01), length = n_lambda))
-      
     }
     
     n_lambda1 = length(lambda1_seq)
@@ -151,19 +150,16 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
       index = which(fold_ids == fold)  ## Stores indexes for CV 
       xtrain = X[-index,]        ## train data
       meanx <- colMeans(xtrain)
-      xtrain = scale(xtrain, center = meanx, scale = FALSE)
+      xtrain = scale(xtrain, center = meanx, scale = TRUE)
       n_train = dim(xtrain)[1]
       S_train = crossprod(xtrain) / n_train
+       sc_fit_lambda1 = sc_seq(S = S_train, lambda_seq = lambda1_seq, lambda2 = lambda2_min, init.x = init.x, lambda.type = c("lambda1"), max_iter=max_iter,
+                              pen.type= penalty, band = band, ABSTOL = ABSTOL)$x_mat
       #Create testing data xtest and ytest, everything in fold
       xtest = X[index,]          ## test data
       n_test = dim(xtest)[1]
-        xtest = scale(xtest, center = TRUE, scale = FALSE) # xtest - tcrossprod(onevec)  %*% xtest / n_test
-        Stest = crossprod(xtest) / n_test
-#      }
-      
-      sc_fit_lambda1 = sc_seq(S = S_train, lambda_seq = lambda1_seq, lambda2 = lambda2_min, init.x = init.x, lambda.type = c("lambda1"), max_iter=max_iter,
-                              pen.type= penalty, band = band, ABSTOL = ABSTOL)$x_mat
-      
+      xtest = scale(xtest, center = TRUE, scale = TRUE) # xtest - tcrossprod(onevec)  %*% xtest / n_test
+      Stest = crossprod(xtest) / n_test
       for ( i in 1 : n_lambda1)
       {
         omega = crossprod(Lfromx(sc_fit_lambda1[, i], p))
