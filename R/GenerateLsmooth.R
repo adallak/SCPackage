@@ -112,7 +112,7 @@ piecewiseAR<-function(p,a=-0.9,b=0.9,seed=25)
 #'
 #' @param p    the dimension of \code{L}
 #' @param band Number of subdiagonals
-#' @param scaled If TRUE the diagonals of lower triangular matrix \code{L} are equal 0, otherwise \eqn{log((1:p)/10+2)}
+#' @param stand logical, If TRUE the diagonals of lower triangular matrix \code{L} are equal 0, otherwise \eqn{log((1:p)/10+2)}
 #' @param case   admits for possible case a,b,c, and d discribed in Dallakyan and Pourahmadi(2019)
 #' @param seed   
 #' @param ... 
@@ -125,7 +125,7 @@ piecewiseAR<-function(p,a=-0.9,b=0.9,seed=25)
 #' @examples
 #' generateL(p = 10, band = 4, case = "c")
 #' 
-generateL<-function(p, band = NULL, scaled = FALSE, case = c("a", "b", "c", "d"),seed = 25,...)
+generateL <- function(p, band = NULL, stand = FALSE, case = c("a", "b", "c", "d"),seed = 25, scale = 1, ...)
 {
   p = p
  # knots =knots
@@ -154,7 +154,7 @@ generateL<-function(p, band = NULL, scaled = FALSE, case = c("a", "b", "c", "d")
     }
      if(case == "c")
      {
-       L[ii == i] = (2 * ((1 : (p - i + 1)) / ((p)))^2 - 0.5)/5 
+       L[ii == i] = (2 * ((1 : (p - i + 1)) / ((p)))^2 - 0.5)/10 
      }
     if(case == "b")
     {
@@ -186,7 +186,7 @@ generateL<-function(p, band = NULL, scaled = FALSE, case = c("a", "b", "c", "d")
   L <- L - upper.tri(L) * L
   T <- L
   L <- diag(rep(1, p)) - L
-  if(isTRUE(scaled))
+  if(isTRUE(stand))
   {
   L <- diag(rep(1, p)) %*% L
   }else{
