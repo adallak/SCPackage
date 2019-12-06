@@ -57,7 +57,7 @@ n = 100
 # random sample
 X <- sample_gen(L = L_true, n = n)
 # sample covariance matrix
-S <- crossprod(scale(X, center = TRUE, scale = FALSE)) / n
+S <- crossprod(scale(X, center = FALSE, scale = FALSE)) / n
 ```
 
 ## Estimating L with a fixed tuning parameter
