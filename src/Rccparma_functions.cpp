@@ -220,13 +220,13 @@ arma::vec fused_update(arma::vec x, arma::mat S, const double lambda1, const dou
     }
   }
   arma::uvec ind1 = A[0];
-  x.elem(ind1 - 1) = diag_update(A, x, S);  // Update the diagonal element
+  x.elem(ind1-1)= diag_update(A,x,S); // Update diagonal element
   return x;
 }
 // 
 
 // [[Rcpp::export]]
-Rcpp::List iter_fused(arma::vec x,arma::mat S, double lambda1, double lambda2,int band, List A, double max_iter,double  ABSTOL   ){
+Rcpp::List iter_fused(arma::vec x,arma::mat S,const double lambda1, const double lambda2,int band, List A,const double max_iter,double  ABSTOL   ){
   //  double  ABSTOL   = 1e-3;
   // double  RELTOL   = 1e-4;
   arma::vec history; history.zeros(max_iter);
@@ -234,24 +234,25 @@ Rcpp::List iter_fused(arma::vec x,arma::mat S, double lambda1, double lambda2,in
   arma::vec x_temp;
   arma::vec vecL;
   //int p = S.n_rows;
-  for (int iter =0; iter < (max_iter); iter++)
+  for (int iter = 0; iter < (max_iter); iter++)
   {
     oldL = x;
     x_temp = fused_update(x, S, lambda1, lambda2, band, A);
     x = x_temp;
     vecL = x;
-    history.elem(iter)  = arma::norm((vecL - oldL),"inf");
+    history(iter)  = arma::norm((vecL - oldL),"inf");
     //  double current_iter = arma::as_scalar(history(iter));
-    if (history.elem(iter) <= ABSTOL){
+    if (history(iter) <= ABSTOL){
       break;
     }
     if(iter == (max_iter - 1))
     {
-      Rcpp::Rcout << "SC fails to converge, current value is " << history.elem(iter) << std::endl;
+      Rcpp::Rcout << "SC fails to converge, current value is " << history(iter) << std::endl;
     }
   }
-  return(Rcpp::List::create(Rcpp::Named("history")=history,
-                            Rcpp::Named("x")=x));
+  
+  return(Rcpp::List::create(Rcpp::Named("history") = history,
+                            Rcpp::Named("x") = x));
   //     return x;
 }
 
@@ -325,21 +326,18 @@ Rcpp::List iter_trend(arma::vec x,arma::mat S, const double lambda1, const doubl
     x_temp = trend_update(x, S, lambda1, lambda2, band, A);
     x = x_temp;
     vecL = x;
-    history.elem(iter)  = arma::norm((vecL - oldL),"inf");
-    //   Rcpp::Rcout <<history(iter) << std::endl;
-    //  double current_iter = arma::as_scalar(history(iter));
-    if (history.elem(iter) <= ABSTOL){
+    history(iter)  = arma::norm((vecL - oldL), "inf");
+    if (history(iter) <= ABSTOL){
       break;
     }
     if(iter == (max_iter - 1))
     {
-      Rcpp::Rcout << "SC fails to converge, current value is " << history.elem(iter) << std::endl;
+      Rcpp::Rcout << "SC fails to converge, current value is " << history(iter) << std::endl;
     }
   }
   
-  
-  return(Rcpp::List::create(Rcpp::Named("history")=history,
-                            Rcpp::Named("x")=x));
+  return(Rcpp::List::create(Rcpp::Named("history") = history,
+                            Rcpp::Named("x") = x));
   //     return x;
 }
 // 
@@ -360,20 +358,18 @@ arma::vec hp_update(arma::vec x, arma::mat S, const double lambda1, const double
   int li;
   arma::mat y;
   //  arma::mat z=x;
-  for (int i = 2; i< (band + 1); i++){
+  for (int i = 2; i<(band + 1); i++){
     arma::vec tm = A[(i - 1)];
     li = tm.n_elem;
     diag = S.diag();
     diag = diag.rows(0, (li - 1));
     Bii = diagmat(diag);
     y=(-2 * (offsubsum(A, x, i, S)));
-    //   Bi = diagmat(sqrt(Bii.diag()));
-    //    sqrt_Bi = diagmat(1/(Bi.diag()));
     if(i == (p)){
       arma::uvec ind = A[i - 1];
       int D = 1;
       //     ind.print();
-      x.elem(ind - 1)= soft_threshold(y, lambda1)/(2 * Bii + 2 * lambda2 * std::pow(D, 2));
+      x.elem(ind - 1)= soft_threshold(y, lambda1) / (2 * Bii + 2 * lambda2 * std::pow(D, 2));
     }else if ((i > (p - 1)) && (i != p)){
       arma::uvec ind = A[i - 1];
       arma::mat D = getd1d(ind.n_elem);
@@ -383,15 +379,9 @@ arma::vec hp_update(arma::vec x, arma::mat S, const double lambda1, const double
       arma::mat D = getdtf(ind.n_elem, 1);
       x.elem(ind - 1) = hp_coef(Bii, D, y, lambda1, lambda2);
     }
-    // if (lambda1>0){
-    //    arma::uvec ind=A[i-1];
-    //  arma::vec weight = 1/(2*Bii.diag());
-    //arma::vec temp = x.elem(ind-1);
-    //x.elem(ind-1)= weighted_soft_threshold(temp,weight,lambda1);
-    //       temp.print();
   }
   arma::uvec ind1 = A[0];
-  x.elem(ind1 - 1)= diag_update(A, x, S);
+  x.elem(ind1 - 1)= diag_update(A, x, S); // Update diagonal
   
   return x;
 }
@@ -408,15 +398,15 @@ Rcpp::List iter_hp(arma::vec x,arma::mat S,const double lambda1, const double la
     arma::vec x_temp = hp_update(x, S, lambda1, lambda2, band, A);
     x = x_temp;
     arma::vec vecL = x;
-    history.elem(iter)  = arma::norm((vecL - oldL),"inf");
+    history(iter)  = arma::norm((vecL - oldL),"inf");
     //   Rcpp::Rcout <<history(iter) << std::endl;
     //  double current_iter = arma::as_scalar(history(iter));
-    if (history.elem(iter) <= ABSTOL){
+    if (history(iter) <= ABSTOL){
       break;
     }
     if(iter == (max_iter - 1))
     {
-      Rcpp::Rcout <<"SC fails to converge, current value is " << history.elem(iter) << std::endl;
+      Rcpp::Rcout <<"SC fails to converge, current value is " << history(iter) << std::endl;
     }
   }
   
@@ -424,6 +414,5 @@ Rcpp::List iter_hp(arma::vec x,arma::mat S,const double lambda1, const double la
                             Rcpp::Named("x") = x));
   //     return x;
 }
-
 
 
