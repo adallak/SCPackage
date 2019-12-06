@@ -5,9 +5,9 @@
 \title{Performs kfolds-cross validation}
 \usage{
 smoothcholCV(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL,
-  lambda2_seq = NULL, max_iter = 50, band = NULL, n_lambda = 60,
-  pen.type = c("HP", "fused", "l1trend"), ABSTOL = 0.001,
-  stand = FALSE)
+  lambda2_seq = NULL, max_iter = 50, init.x = NULL, band = NULL,
+  n_lambda = 60, pen.type = c("HP", "fused", "l1trend"),
+  ABSTOL = 0.001, stand = TRUE)
 }
 \arguments{
 \item{k}{Folds used in cross-validation. The default is $k = 5$}
