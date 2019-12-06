@@ -429,36 +429,6 @@ Rcpp::List iter_hp(arma::vec x,arma::mat S,const double lambda1, const double la
                             Rcpp::Named("x") = x));
   //     return x;
 }
-// 
-// // [[Rcpp::export]]
-// 
-// Rcpp::List sc_seq(arma::mat S, arma::vec lambda_seq, arma::vec init_x, std::string lambda_type, const double lambda2 ,
-//                  std::string pen_type, int band, double ABSTOL, const double lambda1 , int max_iter){
-//   int p = S.n_rows;
-//   int n_lambda = lambda_seq.n_elem;
-//   arma::mat x_mat; x_mat.zeros(p * (p +1) / 2, n_lambda);
-//   for (int i =0; i < (n_lambda); i++)
-//   {
-//     if (lambda_type == "lambda2")
-//     {
-//       if (pen_type == "fused"){
-//         Rcpp::List fused = iter_fused(init_x, S, lambda1, lambda2 = lambda_seq[i], band, A, max_iter, ABSTOL );
-//         x_mat.col(i) = fused[x];
-//       }
-//       if(pen_type == "l1trend"){
-//         Rcpp::List l1trend = iter_trend(init_x, S, lambda1, lambda2 = lambda_seq[i], band,A, max_iter, ABSTOL );
-//         x_mat.col(i) = l1trend[x];
-//       }
-//       if(pen_type == "HP")
-//       {
-//         Rcpp::List HP = iter_hp(init_x, S, lambda1, lambda2 = lambda_seq[i], band,A, max_iter, ABSTOL );
-//         x_mat.col(i) = HP[x];
-//       }
-//       init_x = x_mat.col(i)
-//     }
-//     return(Rcpp::List::create(Rcpp::Named("lambda_seq") = lambda_seq,
-//                               Rcpp::Named("x_mat") = x_mat));
-// }
 
 
 
