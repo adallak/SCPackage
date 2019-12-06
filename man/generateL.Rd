@@ -4,15 +4,13 @@
 \alias{generateL}
 \title{Generate a model with specified structure}
 \usage{
-generateL(p, band = NULL, stand = FALSE, case = c("a", "b", "c",
-  "d"), seed = 25, scale = 10, ...)
+generateL(p, band = NULL, scaled = FALSE, case = c("a", "b", "c",
+  "d"), seed = 25, scale = 1, ...)
 }
 \arguments{
 \item{p}{the dimension of \code{L}}
 
 \item{band}{Number of subdiagonals}
-
-\item{stand}{logical, If TRUE the diagonals of lower triangular matrix \code{L} are equal 0, otherwise \eqn{log((1:p)/10+2)}}
 
 \item{case}{admits for possible case a,b,c, and d discribed in Dallakyan and Pourahmadi(2019)}
 
@@ -21,6 +19,8 @@ generateL(p, band = NULL, stand = FALSE, case = c("a", "b", "c",
 \item{scale}{scales the subdiagonal by given constant to avoid large values.}
 
 \item{...}{}
+
+\item{stand}{logical, If TRUE the diagonals of lower triangular matrix \code{L} are equal 0, otherwise \eqn{log((1:p)/10+2)}}
 }
 \value{
 Returns Standard Cholesky factor \code{L} and modified Cholesky Factor \code{T}.
