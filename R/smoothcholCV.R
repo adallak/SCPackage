@@ -16,7 +16,7 @@ sc_seq<-function(S, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lamb
   #   x = X - tcrossprod(onevec) %*% X / n
   #   S = crossprod(x) / n
   # }
-  # x_mat = matrix(0, nrow = p * (p+1) / 2, ncol = n_lambda ) 
+   x_mat = matrix(0, nrow = p * (p+1) / 2, ncol = n_lambda ) 
   for (i in 1 : n_lambda){
     if (lambda.type == "lambda2")
     {
