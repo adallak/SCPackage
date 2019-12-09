@@ -65,7 +65,7 @@ sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lamb
 #' p = 50
 #' L_true = generateL(p = p, case = "c")$L
 #' X = sample_gen(L = L_true, n = n)
-#' L_cv = smoothcholCV(X, both.lambda = FALSE, n_lambda = 30, pen.type = "fused")
+#' L_cv = smoothcholCV(k = 5,X =  X, both.lambda = FALSE, n_lambda = 30, pen.type = "fused")
 #' 
 #' @seealso \code{\link{smoothchol}}
 #' 
