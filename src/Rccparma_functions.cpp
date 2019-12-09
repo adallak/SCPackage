@@ -370,7 +370,7 @@ arma::vec hp_update(arma::vec x, arma::mat S, const double lambda1, const double
       int D = 1;
       //     ind.print();
       x.elem(ind - 1)= soft_threshold(y, lambda1) / (2 * Bii + 2 * lambda2 * std::pow(D, 2));
-    }else if ((i > (p - 1)) && (i != p)){
+    }else if ((i > (p - 2)) && (i != p)){
       arma::uvec ind = A[i - 1];
       arma::mat D = getd1d(ind.n_elem);
       x.elem(ind - 1) = hp_coef(Bii, D, y, lambda1, lambda2);
