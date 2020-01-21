@@ -35,14 +35,16 @@ The main function is `smoothchol`, which takes a sample covariance matrix of the
 ## Quick Start
 
 
-```{r setup, eval = T}
+
+```r
 library(SC)
 ```
 
 ## Usage
 The package contains function `generateL` for generating true standard and modified Cholesky factor $L$. The  It takes as an input number of variables and number of bands and returns the Cholesky Factor. The type function 
 
-``` {r include= TRUE, message= FALSE, warning=FALSE}
+
+```r
 set.seed(12)
 p <- 30
 L_true <- generateL(p = p, case = "c")$L
@@ -50,7 +52,8 @@ L_true <- generateL(p = p, case = "c")$L
 
 Having true Cholesky factor, we can then generate a data matrix $X \in \mathbb{R}^{n \times p}$ with each row a random sample drawn independently from a Gaussian distribution of mean zero and covariance $\Sigma = (L^T L)^{-1}$. We use function `sample_gen` from the package `varband` to generate the data. After centering the dat, the sample covariance is esitmated by $S = \frac{X^tX}{n}$
 
-```{r }
+
+```r
 library(varband)
 n = 100
 # random sample
@@ -71,7 +74,8 @@ The `sc`function takes the following parameters:
 - `band` - if specified, algorithm forces the rest of entries zero and iterates only over specifed subdiagonals.
 - `ABSTOL` - Tolerance for algorithm convergence.
 
-```{r}
+
+```r
 L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.5 , type = "fused", max_iter = 150)
 ```
 
@@ -81,7 +85,8 @@ L_fused = smoothchol(S, lambda1 = 0, lambda2 = 0.5 , type = "fused", max_iter = 
 
 In this section we use `smoothcholCV` to select the tuning parameter for the proposed method using cross validation and plot the true and esitmated first subdiagonals.
 
-```{r, warning= FALSE, message = FALSE, results= "hide"}
+
+```r
 lambda2_seq = seq(0.01, 2, length.out = 60)
 L_fused_cv = smoothcholCV(k = 5, X, lambda2_seq = lambda2_seq, pen.type = "fused", max_iter = 150, stand = TRUE )
 L_trend_cv = smoothcholCV(k = 5, X, lambda2_seq = lambda2_seq, pen.type = "l1trend", max_iter = 150, stand = TRUE )
@@ -96,33 +101,35 @@ true_first = diag(T_true[-1, -p])
 fused_first = diag(T_fused[-1, -p])
 trend_first = diag(T_trend[-1, -p])
 hp_first = diag(T_hp[-1, -p])
-
 ```
 
 Now, to evaluate performance of our method we plot the true first subdiagonal and the estimated subdiagonal for all three estimators.
 
-```{r , echo=FALSE}
-plot(true_first,main="Case c",xlab="",ylim=c(-0.8,0.4),ylab="CV",cex.lab=0.8,pch=16,cex.main=1.2)
-points(fused_first,col="blue",type="o",lwd=2,pch=17)
-points(trend_first,col="red",type="o",lwd=2,pch=18)
-points(hp_first,col="green",type="o",lwd=2,pch=19)
-legend("bottomright", 
-       legend = c("True L","HP", "Fused","l1trend"), 
-       col = c("black","blue", "red","green"), 
-       pch = c(16,17,18,19), 
-       bty = "n", 
-       pt.cex = 1, 
-       cex = 0.5, 
-       text.col = "black", 
-       horiz = F , 
-       inset = c(0.01, 0.001))
-```
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png)
 
 We can plot the true model and the estimated matrix by using `matimage` function from the package `varband`. 
 
-```{r}
+
+```r
   matimage(L_true, main = "True L")
+```
+
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png)
+
+```r
   matimage(L_fused_cv$L_fit, main = "Smoothed Cholesky (Fused)")
+```
+
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-2.png)
+
+```r
   matimage(L_trend_cv$L_fit, main = "Smoothed Cholesky (l1trent)")
+```
+
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-3.png)
+
+```r
   matimage(L_hp_cv$L_fit, main = "Smoothed Cholesky (HP)")
 ```
+
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-4.png)
