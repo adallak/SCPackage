@@ -87,7 +87,7 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
   }
   if(is.null(band))
   {
-    band = p
+    band = p - 1
   }
   
   if(is.null(init.x))

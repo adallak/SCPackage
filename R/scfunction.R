@@ -44,7 +44,7 @@ smoothchol<-function(S, lambda1 = 0, lambda2, max_iter = 70, init.x = NULL, type
   ND <- mat$ND
   if(is.null(band))
   {
-    band = p
+    band = p - 1
   }
   
   if(is.null(init.x))
