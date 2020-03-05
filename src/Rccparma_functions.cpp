@@ -191,7 +191,7 @@ arma::vec fused_update(arma::vec x, arma::mat S, const double lambda1, const dou
   arma::vec temp_y;
   //Rcpp::NumericVector y;
   //  arma::mat z=x;
-  for (int i = 2; i < (band + 1); i++){
+  for (int i = 2; i < (band + 2); i++){
     arma::vec tm = A[(i-1)];
     int li = tm.n_elem;
     Bii = S.diag();
@@ -270,7 +270,7 @@ arma::vec trend_update(arma::vec x, arma::mat S, const double lambda1, const dou
   arma::vec temp;
   arma::vec y;
   //  arma::mat z=x;
-  for (int i = 2; i < (band + 1); i++){
+  for (int i = 2; i < (band + 2); i++){
     arma::vec tm = A[(i-1)];
     li = tm.n_elem;
     Bii = S.diag();
@@ -358,7 +358,7 @@ arma::vec hp_update(arma::vec x, arma::mat S, const double lambda1, const double
   int li;
   arma::mat y;
   //  arma::mat z=x;
-  for (int i = 2; i<(band + 1); i++){
+  for (int i = 2; i<(band + 2); i++){
     arma::vec tm = A[(i - 1)];
     li = tm.n_elem;
     diag = S.diag();
