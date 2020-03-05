@@ -193,6 +193,7 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
     cvm_lambda1 = cv_tmp_lambda1/k
     lambda1_min = lambda1_seq[which.min(cvm_lambda1)][1] 
   }
+  S =  crossprod(scale(X, center = TRUE, scale = FALSE)) / n
   sc_cv_fit = smoothchol(S, lambda1 = lambda1_min, lambda2 = lambda2_min, max_iter = max_iter, init.x = init.x, band = band, type = penalty, ABSTOL = ABSTOL)
   return(list(lambda1_min = lambda1_min, lambda2_min = lambda2_min, L_fit = sc_cv_fit$L, history = sc_cv_fit$history, cvm = cvm, lambda2_seq = lambda2_seq))
 }    
