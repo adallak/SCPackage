@@ -146,7 +146,7 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
   }
   cvm = rowMeans(cv_tmp)
   lambda1_min = lambda1
-  lambda2_min = lambda2_seq[which.min(cvm)][1] 
+  lambda2_min = sort(lambda2_seq)[which.min(cvm)][1] 
   #############Running loop for lambda1
   if (isTRUE(both.lambda))
   {
@@ -191,7 +191,7 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
       }
     }
     cvm_lambda1 = cv_tmp_lambda1/k
-    lambda1_min = lambda1_seq[which.min(cvm_lambda1)][1] 
+    lambda1_min = sort(lambda1_seq)[which.min(cvm_lambda1)][1] 
   }
   S =  crossprod(scale(X, center = TRUE, scale = FALSE)) / n
   sc_cv_fit = smoothchol(S, lambda1 = lambda1_min, lambda2 = lambda2_min, max_iter = max_iter, init.x = init.x, band = band, type = penalty, ABSTOL = ABSTOL)
