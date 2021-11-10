@@ -31,7 +31,8 @@
 #' 
 #' @seealso \code{\link{smoothcholCV}}
 #' 
-smoothchol<-function(S, lambda1 = 0, lambda2, max_iter = 70, init.x = NULL, type= c("fused", "l1trend", "HP"), 
+smoothchol<-function(S, lambda1 = 0, lambda2, max_iter = 70, init.x = NULL,
+                     type= c("fused", "l1trend", "HP"), 
                      band=NULL , ABSTOL   = 1e-3 )
 {
   type = match.arg(type)
@@ -45,6 +46,11 @@ smoothchol<-function(S, lambda1 = 0, lambda2, max_iter = 70, init.x = NULL, type
   if(is.null(band))
   {
     band = p - 1
+  }
+  else {
+    if (band > (p - 1)) {
+      stop("Subdiagonal band is large")
+    }
   }
   
   if(is.null(init.x))
@@ -93,8 +99,6 @@ Lfromx <- function(x, p)
   {
     l = length(diag(L[-( 1 : i), -(p :(p - i + 1))]))
     k = k + l
-    #    print(k)
-    #    cat("L length",length(diag(L[-(1:i),-(p:(p-i+1))])),"\n")
     diag(L[-( 1 : i), - (p : (p - i + 1))]) = x[(p + m + 1) : (p + k)]
     m <- k
   }
