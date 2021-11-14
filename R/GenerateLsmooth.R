@@ -132,9 +132,13 @@ generateL<-function(p, band = NULL, scaled = FALSE, case = c("a", "b", "c", "d")
   # knots =knots
   if(is.null(band))
   {
-    band = p
+    band = p - 1
   }else{
     band = band
+  }
+  if (band >= p)
+  {
+    stop("Bandwidth should be less than p")
   }
   case = match.arg(case)
   ii <- toeplitz(1 : p)
@@ -143,10 +147,10 @@ generateL<-function(p, band = NULL, scaled = FALSE, case = c("a", "b", "c", "d")
   L <- (ii <= K) & (ii !=0)
   for(i in 2:(band + 1))
   {
-    if (i == p-1)
-    {
-      L[p,1] = 0#diag(T[-(1),-(p)])[1]
-    }else{
+##    if (i == p)
+#    {
+#      L[p,1] = 0#diag(T[-(1),-(p)])[1]
+ #   }else{
       set.seed(seed)
       if(case == "d")
       {
@@ -177,7 +181,7 @@ generateL<-function(p, band = NULL, scaled = FALSE, case = c("a", "b", "c", "d")
         l<-sign*runif(1, 0.1, 0.3)
         L[ii == i] = l
       } 
-    }
+#    }
   }
   diag(L) <- rep(0, p)
   L <- L - upper.tri(L) * L
