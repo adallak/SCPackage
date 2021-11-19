@@ -252,7 +252,7 @@ Rcpp::List iter_fused(arma::vec x,arma::mat S,const double lambda1, const double
   }
   
   return(Rcpp::List::create(Rcpp::Named("history") = history,
-                            Rcpp::Named("x") = x)),
+                            Rcpp::Named("x") = x));
   //     return x;
 }
 
