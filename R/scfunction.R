@@ -31,7 +31,8 @@
 #' 
 #' @seealso \code{\link{smoothcholCV}}
 #' 
-smoothchol<-function(S, lambda1 = 0, lambda2, max_iter = 70, init.x = NULL,
+smoothchol<-function(S, lambda1 = 0, lambda2, max_iter = 70,
+                     init.x = NULL,
                      type= c("fused", "l1trend", "HP"), 
                      band=NULL , ABSTOL   = 1e-3 )
 {
@@ -61,18 +62,21 @@ smoothchol<-function(S, lambda1 = 0, lambda2, max_iter = 70, init.x = NULL,
     x <- init.x
   }
   if (type == "fused"){
-    fused = iter_fused(x, S, lambda1, lambda2, band, A, max_iter, ABSTOL )
+    fused = iter_fused(x, S, lambda1, lambda2, 
+                       band, A, max_iter, ABSTOL )
     x = fused$x
     history = fused$history
   }
   if(type == "l1trend"){
-    l1trend = iter_trend(x, S, lambda1, lambda2, band,A, max_iter, ABSTOL )
+    l1trend = iter_trend(x, S, lambda1, lambda2, 
+                         band,A, max_iter, ABSTOL )
     x = l1trend$x
     history = l1trend$history
   }
   if(type == "HP")
   {
-    HP = iter_hp(x, S, lambda1, lambda2, band,A, max_iter, ABSTOL )
+    HP = iter_hp(x, S, lambda1, lambda2, band,
+                 A, max_iter, ABSTOL )
     x = HP$x
     history = HP$history
   }

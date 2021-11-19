@@ -1,5 +1,7 @@
-sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lambda2"), stand = FALSE,
-                 lambda2 = 0, lambda1 = 0, max_iter=50, pen.type=c("HP","fused","l1trend"), band, ABSTOL = 1e-3 )
+sc_seq<-function(X, lambda_seq , init.x = NULL, 
+                 lambda.type = c("lambda1", "lambda2"), stand = FALSE,
+                 lambda2 = 0, lambda1 = 0, max_iter=50, 
+                 pen.type=c("HP","fused","l1trend"), band, ABSTOL = 1e-3 )
 {
   n <- dim(X)[1]
   p <- dim(X)[2]
@@ -9,7 +11,7 @@ sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lamb
   ### Standardize the input
   if (isTRUE(stand))
   {
-    S =  crossprod(scale(X, center = TRUE, scale = TRUE)) / n
+    S =  crossprod(scale(X, center = TRUE, scale = TRUE)) / (n - 1)
   }else{
     S = cov(X)
   }
@@ -17,9 +19,13 @@ sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lamb
   for (i in 1 : n_lambda){
     if (lambda.type == "lambda2")
     {
-      x_mat[, i] <- smoothchol(S, lambda1 = lambda1, lambda2 = lambda_seq[i], max_iter=max_iter, init.x = init.x, band=band, type=penalty, ABSTOL = ABSTOL)$x
+      x_mat[, i] <- smoothchol(S, lambda1 = lambda1, lambda2 = lambda_seq[i],
+                               max_iter=max_iter, init.x = init.x, band=band, 
+                               type=penalty, ABSTOL = ABSTOL)$x
     }else{
-      x_mat[, i] <- smoothchol(S, lambda1 = lambda_seq[i], lambda2 = lambda2, max_iter=max_iter, init.x = init.x, band=band, type=penalty, ABSTOL = ABSTOL)$x
+      x_mat[, i] <- smoothchol(S, lambda1 = lambda_seq[i], lambda2 = lambda2,
+                               max_iter=max_iter, init.x = init.x, band=band, 
+                               type=penalty, ABSTOL = ABSTOL)$x
     }
     init.x = x_mat[, i]   ## Updates the vector x
   }
@@ -70,8 +76,10 @@ sc_seq<-function(X, lambda_seq , init.x = NULL, lambda.type = c("lambda1", "lamb
 #' @seealso \code{\link{smoothchol}}
 #' 
 #' 
-smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lambda2_seq = NULL, max_iter = 50
-                         , init.x = NULL, band = NULL, n_lambda = 60, pen.type=c("HP","fused","l1trend"), 
+smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, 
+                         lambda2_seq = NULL, max_iter = 50
+                         , init.x = NULL, band = NULL, n_lambda = 60, 
+                         pen.type=c("HP","fused","l1trend"), 
                          ABSTOL   = 1e-3, stand = TRUE )
 {
   n = dim(X)[1]
@@ -81,7 +89,7 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
   A <- mat$A
   if (isTRUE(stand))
   {
-    S =  crossprod(scale(X, center = TRUE, scale = TRUE)) / n
+    S =  crossprod(scale(X, center = TRUE, scale = TRUE)) / (n - 1)
   }else{
     S = var(X)
   }
@@ -107,11 +115,14 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
       #print(lambda_seq)
     }
   }else{
-    # If lambda_seq is not supplied, calculate lambda_max (the minimal value of lambda that gives zero solution), and create a sequence of length n_lambda as
+    # If lambda_seq is not supplied, calculate lambda_max
+    #(the minimal value of lambda that gives zero solution), 
+    #and create a sequence of length n_lambda as
     lambda2_seq = exp(seq(log(1), log(0.01), length = n_lambda))
     
   }
-  ##### Train first for lambda2 and lambda1 = 0 then for lambda 1 and fit cv result for lambda2
+  ##### Train first for lambda2 and lambda1 = 0 then 
+  #for lambda 1 and fit cv result for lambda2
   n_lambda = length(lambda2_seq)
   if (length(lambda1_seq) == 1)
   {
@@ -136,8 +147,11 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
       Stest = cov(xtest)
     }
     
-    sc_fit = sc_seq(X = xtrain, lambda_seq = lambda2_seq, init.x = init.x, lambda.type = c("lambda2"), max_iter=max_iter,
-                    pen.type= penalty, band = band, ABSTOL = ABSTOL, stand = stand )$x_mat
+    sc_fit = sc_seq(X = xtrain, lambda_seq = lambda2_seq, 
+                    init.x = init.x, lambda.type = c("lambda2"), 
+                    max_iter=max_iter,pen.type= penalty,
+                    band = band, ABSTOL = ABSTOL, 
+                    stand = stand )$x_mat
     for ( i in 1 : n_lambda)
     {
       omega = crossprod(Lfromx(sc_fit[, i], p))
@@ -159,7 +173,9 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
         #print(lambda_seq)
       }
     }else{
-      # If lambda_seq is not supplied, calculate lambda_max (the minimal value of lambda that gives zero solution), and create a sequence of length n_lambda as
+      # If lambda_seq is not supplied, calculate lambda_max 
+      #(the minimal value of lambda that gives zero solution), 
+      #and create a sequence of length n_lambda as
       lambda1_seq = exp(seq(log(1), log(0.01), length = n_lambda))
       
     }
@@ -181,8 +197,11 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
         Stest = var(X)
       }
       
-      sc_fit_lambda1 = sc_seq(X = xtrain, lambda_seq = lambda1_seq, lambda2 = lambda2_min, init.x = init.x, lambda.type = c("lambda1"), max_iter=max_iter,
-                              pen.type= penalty, band = band, ABSTOL = ABSTOL, stand = stand )$x_mat
+      sc_fit_lambda1 = sc_seq(X = xtrain, lambda_seq = lambda1_seq, 
+                              lambda2 = lambda2_min, init.x = init.x,
+                              lambda.type = c("lambda1"), max_iter=max_iter,
+                              pen.type= penalty, band = band, ABSTOL = ABSTOL,
+                              stand = stand )$x_mat
       
       for ( i in 1 : n_lambda1)
       {
@@ -194,8 +213,12 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL, lamb
     lambda1_min = sort(lambda1_seq)[which.min(cvm_lambda1)][1] 
   }
 
-  sc_cv_fit = smoothchol(S, lambda1 = lambda1_min, lambda2 = lambda2_min, max_iter = max_iter, init.x = init.x, band = band, type = penalty, ABSTOL = ABSTOL)
-  return(list(lambda1_min = lambda1_min, lambda2_min = lambda2_min, L_fit = sc_cv_fit$L, history = sc_cv_fit$history, cvm = cvm, lambda2_seq = lambda2_seq))
+  sc_cv_fit = smoothchol(S, lambda1 = lambda1_min, lambda2 = lambda2_min,
+                         max_iter = max_iter, init.x = init.x, band = band, 
+                         type = penalty, ABSTOL = ABSTOL)
+  return(list(lambda1_min = lambda1_min, lambda2_min = lambda2_min, 
+              L_fit = sc_cv_fit$L, history = sc_cv_fit$history, 
+              cvm = cvm, lambda2_seq = lambda2_seq))
 }    
 
 ########################################################
