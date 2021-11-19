@@ -252,7 +252,7 @@ Rcpp::List iter_fused(arma::vec x,arma::mat S,const double lambda1, const double
   }
   
   return(Rcpp::List::create(Rcpp::Named("history") = history,
-                            Rcpp::Named("x") = x));
+                            Rcpp::Named("x") = x)),
   //     return x;
 }
 
@@ -326,6 +326,7 @@ Rcpp::List iter_trend(arma::vec x,arma::mat S, const double lambda1, const doubl
     x_temp = trend_update(x, S, lambda1, lambda2, band, A);
     x = x_temp;
     vecL = x;
+    QL.col(iter) = x; // Delete after simulation
     history(iter)  = arma::norm((vecL - oldL), "inf");
     if (history(iter) <= ABSTOL){
       break;
@@ -337,7 +338,8 @@ Rcpp::List iter_trend(arma::vec x,arma::mat S, const double lambda1, const doubl
   }
   
   return(Rcpp::List::create(Rcpp::Named("history") = history,
-                            Rcpp::Named("x") = x));
+                            Rcpp::Named("x") = x,
+                            Rcpp::Named("QL_fused") = QL));
   //     return x;
 }
 // 
