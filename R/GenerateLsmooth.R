@@ -18,9 +18,11 @@ piecewise<-function(p,knots=3,len,sd=0.07,a=1,b=2,seed=25)
     set.seed(seed+i)
     if(i!= knots)
     {
-      k[(1+c*l):(l+c*l)]=runif(1,-a,a)+runif(1,-b,b)*(((c*l+1):((c+1)*l))/p)+ rnorm(1:(l), sd=sd)
+      k[(1+c*l):(l+c*l)]=runif(1,-a,a)+runif(1,-b,b)*(
+        ((c*l+1):((c+1)*l))/p)+ rnorm(1:(l), sd=sd)
     }else{
-      k[(1+(i-1)*l):(length(k))]=runif(1,-a,a)+runif(1,-b,b)*(((1+(i-1)*l):(length(k)))/p)+ rnorm(((1+(i-1)*l):(length(k))), sd=sd)
+      k[(1+(i-1)*l):(length(k))]=runif(1,-a,a)+runif(1,-b,b)*(
+        ((1+(i-1)*l):(length(k)))/p)+ rnorm(((1+(i-1)*l):(length(k))), sd=sd)
     }
     c= c+1
   }
@@ -97,7 +99,8 @@ piecewiseAR<-function(p,a=-0.9,b=0.9,seed=25)
   rest = length(k)- threequart+1
   k[(1):(half)]=arima.sim(list(order=c(1,0,0), ar=a), n=half)
   k[(half+1):(threequart)]=arima.sim(list(order=c(1,0,0), ar=b), n=(threequart-half))
-  k[(threequart+1):(length(k))]=arima.sim(list(order=c(1,0,0), ar=a), n=(length(k)-threequart))
+  k[(threequart+1):(length(k))]=arima.sim(list(
+    order=c(1,0,0), ar=a), n=(length(k)-threequart))
   return(k)
 }
 #################################################################################
@@ -126,7 +129,8 @@ piecewiseAR<-function(p,a=-0.9,b=0.9,seed=25)
 #' @examples
 #' generateL(p = 10, band = 4, case = "c")
 #' 
-generateL<-function(p, band = NULL, scaled = FALSE, case = c("a", "b", "c", "d"), seed = 25, scale = 1,...)
+generateL<-function(p, band = NULL, scaled = FALSE,
+                    case = c("a", "b", "c", "d"), seed = 25, scale = 1,...)
 {
   p = p
   # knots =knots
@@ -155,7 +159,8 @@ generateL<-function(p, band = NULL, scaled = FALSE, case = c("a", "b", "c", "d")
       if(case == "d")
       {
         size= p - i + 1
-        L[ii == i] = genmarkov(size, seed = seed + i, ...)$y / scale#diag(T[-(1),-(p)])[1:(p-i)]
+        L[ii == i] = genmarkov(size, 
+                               seed = seed + i, ...)$y / scale#diag(T[-(1),-(p)])[1:(p-i)]
       }
       if(case == "c")
       {
@@ -165,7 +170,7 @@ generateL<-function(p, band = NULL, scaled = FALSE, case = c("a", "b", "c", "d")
       {
         if (i == 2)
         {
-          L[ii == i]= fused1d(p - i + 1, 0.9, 1.69, 1.32)
+          L[ii == i]= fused1d(p - i + 1, -0.7, 0.4, -0.3)
         }else if (i == 3)
         {
           L[ii == i] = fused1d(p - i + 1, 0, -0.81, -0.81)
