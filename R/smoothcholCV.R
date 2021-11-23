@@ -32,7 +32,6 @@ sc_seq<-function(X, lambda_seq , init.x = NULL,
     init.x = x_mat[, i]   ## Updates the vector x
     omega = crossprod(Lfromx(x_mat[, i], p))
     tmp[i] = likelihood(omega, Stest)
-    cat("l2 is ", lambda_seq[i], "lik is ", tmp[i], "\n")
   }
   
   
