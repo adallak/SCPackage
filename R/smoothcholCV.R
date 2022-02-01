@@ -216,7 +216,7 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL,
                               lambda2 = lambda2_min, init.x = init.x,
                               lambda.type = c("lambda1"), max_iter=max_iter,
                               pen.type= penalty, band = band, ABSTOL = ABSTOL,
-                              stand = stand )$x_mat
+                              stand = stand, Stest = Stest )$x_mat
       
       for ( i in 1 : n_lambda1)
       {
