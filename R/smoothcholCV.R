@@ -218,7 +218,7 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL,
                               lambda.type = c("lambda1"), max_iter=max_iter,
                               pen.type= penalty, band = band, ABSTOL = ABSTOL,
                               stand = stand, Stest = Stest )$tmp
-      cv_tmp_lambda1[i] = sc_fit_lambda1
+      cv_tmp_lambda1[, fold] = sc_fit_lambda1
       
       # for ( i in 1 : n_lambda1)
       # {
@@ -227,7 +227,7 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL,
       # }
     }
     cvm_lambda1 = rowMeans(cv_tmp_lambda1)
-    se_cvm_l1 = apply(cvm_lambda1,1 ,sd) / k
+    se_cvm_l1 = apply(cv_tmp_lambda1,1 ,sd) / k
     ibest_cvm_l1 = which.min(cvm_lambda1)
     ibest_1se_l1 = min(which(cvm_lambda1 < cvm_lambda1[ibest_cvm_l1] + se_cvm_l1[ibest_cvm_l1]))
     lambda1_1se = lambda1_seq[ibest_1se_l1]
