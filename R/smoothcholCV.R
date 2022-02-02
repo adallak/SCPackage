@@ -194,7 +194,8 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL,
     }
     
     n_lambda1 = length(lambda1_seq)
-    cvm_lambda1 = cv_tmp_lambda1 = rep(0, n_lambda1) # want to have CV(lambda)
+    cvm_lambda1 = rep(0, n_lambda1)
+    cv_tmp_lambda1 = matrix(NA, n_lambda1, k)  # want to have CV(lambda)
     for (fold in 1:k){
       index = which(fold_ids == fold)  ## Stores indexes for CV 
       xtrain = X[-index,]        ## train data
@@ -216,15 +217,16 @@ smoothcholCV <- function(k = 5, X, both.lambda = FALSE, lambda1_seq = NULL,
                               lambda2 = lambda2_min, init.x = init.x,
                               lambda.type = c("lambda1"), max_iter=max_iter,
                               pen.type= penalty, band = band, ABSTOL = ABSTOL,
-                              stand = stand, Stest = Stest )$x_mat
+                              stand = stand, Stest = Stest )$tmp
+      cv_tmp_lambda1[i] = sc_fit_lambda1
       
-      for ( i in 1 : n_lambda1)
-      {
-        omega = crossprod(Lfromx(sc_fit_lambda1[, i], p))
-        cv_tmp_lambda1[i] = cv_tmp_lambda1[i] + likelihood(omega, Stest)
-      }
+      # for ( i in 1 : n_lambda1)
+      # {
+      #   omega = crossprod(Lfromx(sc_fit_lambda1[, i], p))
+      #   cv_tmp_lambda1[i] = cv_tmp_lambda1[i] + likelihood(omega, Stest)
+      # }
     }
-    cvm_lambda1 = cv_tmp_lambda1/k
+    cvm_lambda1 = rowMeans(cv_tmp_lambda1)
     se_cvm_l1 = apply(cvm_lambda1,1 ,sd) / k
     ibest_cvm_l1 = which.min(cvm_lambda1)
     ibest_1se_l1 = min(which(cvm_lambda1 < cvm_lambda1[ibest_cvm_l1] + se_cvm_l1[ibest_cvm_l1]))
